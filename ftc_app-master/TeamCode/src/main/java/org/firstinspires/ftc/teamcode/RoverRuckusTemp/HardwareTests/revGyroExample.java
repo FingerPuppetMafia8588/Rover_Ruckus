@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoverRuckusTemp;
+package org.firstinspires.ftc.teamcode.RoverRuckusTemp.HardwareTests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoverRuckusTemp;
+package org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,7 +22,7 @@ public abstract class RobotHardware extends RobotBase {
     protected Orientation lastAngles = new Orientation();
     protected Orientation angles;
 
-    double globalAngle;
+    protected double globalAngle;
 
     protected int heading;
 
