@@ -92,4 +92,14 @@ public abstract class RobotHardware extends RobotBase {
         setDrivePower(0, 0, 0 ,0);
     }
 
+    protected static class Wheels {
+        public double lf, lr, rf, rr;
+
+        public Wheels(double lf, double rf, double lr, double rr) {
+            this.lf = lf;
+            this.rf = rf;
+            this.lr = lr;
+            this.rr = rr;
+        }
+    }
 }
