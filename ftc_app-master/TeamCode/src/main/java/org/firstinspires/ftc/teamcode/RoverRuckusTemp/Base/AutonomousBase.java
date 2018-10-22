@@ -92,7 +92,7 @@ public abstract class AutonomousBase extends RobotHardware {
         resetAngle();
     }
 
-    private void resetAngle()
+    protected void resetAngle()
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 

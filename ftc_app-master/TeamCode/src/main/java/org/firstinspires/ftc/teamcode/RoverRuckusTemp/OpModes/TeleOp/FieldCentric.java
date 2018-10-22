@@ -20,6 +20,10 @@ public class FieldCentric extends AutonomousBase{
         while (opModeIsActive()){
 
 
+            if(gamepad1.a && gamepad1.b){
+                resetAngle();
+            }
+
             double x1 = gamepad1.left_stick_x, y1 = -gamepad1.left_stick_y;
             double v = Math.sqrt(x1 * x1 + y1 * y1);
             double theta = Math.atan2(x1, y1);

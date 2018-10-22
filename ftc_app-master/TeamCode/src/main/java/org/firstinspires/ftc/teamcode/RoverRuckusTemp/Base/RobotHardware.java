@@ -40,8 +40,8 @@ public abstract class RobotHardware extends RobotBase {
         rbDrive = hardwareMap.dcMotor.get("right_back");
         lbDrive = hardwareMap.dcMotor.get("left_back");
 
-        lfDrive.setDirection(DcMotor.Direction.REVERSE);
-        lbDrive.setDirection(DcMotor.Direction.REVERSE);
+        rfDrive.setDirection(DcMotor.Direction.REVERSE);
+        rbDrive.setDirection(DcMotor.Direction.REVERSE);
 
         rfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
