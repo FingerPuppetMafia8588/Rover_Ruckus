@@ -27,9 +27,9 @@ public class RoverComp extends RobotHardware{
 
             double max;
 
-            x1 = gamepad1.left_stick_x;
-            y1 = -gamepad1.left_stick_y;
-            x2 = gamepad1.right_stick_x;
+            x1 = gamepad1.left_stick_x * STRAFE_RATIO;
+            y1 = -gamepad1.left_stick_y * FORWARD_RATIO;
+            x2 = gamepad1.right_stick_x * TURN_RATIO;
 
             lfPower = 0;
             lbPower = 0;
