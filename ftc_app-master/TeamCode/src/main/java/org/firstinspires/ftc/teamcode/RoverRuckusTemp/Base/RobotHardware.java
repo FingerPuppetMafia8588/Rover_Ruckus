@@ -32,6 +32,10 @@ public abstract class RobotHardware extends RobotBase {
     protected final double ORBITAL20_PPR = 537.6;
     protected final double DRIVE_GEAR_RATIO = 1;
 
+    protected final double FORWARD_RATIO = 1;
+    protected final double STRAFE_RATIO = 1;
+    protected final double TURN_RATIO = 0.7;
+
     @Override
     protected void initRobot(RobotRunType robotRunType){
 
@@ -40,8 +44,8 @@ public abstract class RobotHardware extends RobotBase {
         rbDrive = hardwareMap.dcMotor.get("right_back");
         lbDrive = hardwareMap.dcMotor.get("left_back");
 
-        rfDrive.setDirection(DcMotor.Direction.REVERSE);
-        rbDrive.setDirection(DcMotor.Direction.REVERSE);
+        lfDrive.setDirection(DcMotor.Direction.REVERSE);
+        lbDrive.setDirection(DcMotor.Direction.REVERSE);
 
         rfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
