@@ -64,7 +64,7 @@ public class FieldCentric extends AutonomousBase{
         return ret;
     }
 
-    public void drive(double direction, double velocity, double rotationVelocity) {
+    private void drive(double direction, double velocity, double rotationVelocity) {
         Wheels w = getWheels(direction, velocity, rotationVelocity);
         lfDrive.setPower(w.lf);
         rfDrive.setPower(w.rf);
