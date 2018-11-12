@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.RoverRuckusTemp.OpModes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.AutonomousBase;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotHardware;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
 
@@ -14,6 +15,7 @@ public class RoverComp extends RobotHardware{
     @Override
     public void runOpMode(){
         initRobot(RobotRunType.TELEOP);
+
 
         waitForStart();
 
@@ -71,6 +73,21 @@ public class RoverComp extends RobotHardware{
 
             setDrivePower(rfPower, lfPower, rbPower, lbPower);
 
+            liftL.setPower(gamepad2.left_stick_y);
+            liftR.setPower(gamepad2.left_stick_y);
+
+            if (gamepad2.a){
+                dumpL.setPosition(0.55);
+            } else if (gamepad2.b){
+                dumpL.setPosition(1);
+            }
+
+            if (gamepad2.dpad_up){
+                collector.setPosition(0.45);
+            }
+            if (gamepad2.dpad_down){
+                collector.setPosition(1);
+            }
 
         }
     }
