@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
@@ -16,6 +19,24 @@ public abstract class RobotHardware extends RobotBase {
     protected DcMotor lfDrive;
     protected DcMotor rbDrive;
     protected DcMotor lbDrive;
+
+    protected DcMotor liftR;
+    protected DcMotor liftL;
+
+    protected Servo dumpL;
+
+    protected Servo collector;
+
+    protected Servo armL;
+    protected Servo armR;
+
+    protected Servo marker;
+
+    protected ColorSensor colorL;
+    protected ColorSensor colorR;
+
+
+
 
     // declares gyro
     protected BNO055IMU imu;
@@ -47,10 +68,34 @@ public abstract class RobotHardware extends RobotBase {
         lfDrive.setDirection(DcMotor.Direction.REVERSE);
         lbDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        rfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rbDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lbDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rfDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lfDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        liftL = hardwareMap.dcMotor.get("lift_left");
+        liftR = hardwareMap.dcMotor.get("lift_right");
+
+        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        dumpL = hardwareMap.servo.get("dump_left");
+        dumpL.setPosition(1);
+
+        collector = hardwareMap.servo.get("collector");
+        collector.setPosition(.5);
+
+        armL = hardwareMap.servo.get("armL");
+        armL.setPosition(0);
+        armR = hardwareMap.servo.get("armR");
+        armR.setPosition(1);
+
+        marker = hardwareMap.servo.get("marker");
+        marker.setPosition(0);
+
+        colorL = hardwareMap.get(ColorSensor.class, "colorL");
+        colorR = hardwareMap.get(ColorSensor.class, "colorR");
+
+
 
         // initialize gyro if starting in autonomous
         if (robotRunType == RobotRunType.AUTONOMOUS){

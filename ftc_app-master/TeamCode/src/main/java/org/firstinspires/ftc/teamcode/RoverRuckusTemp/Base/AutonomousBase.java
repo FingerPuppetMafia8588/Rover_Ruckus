@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
  * Created by isaac.blandin on 8/28/18.
@@ -19,13 +20,13 @@ public abstract class AutonomousBase extends RobotHardware {
         rbDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lbDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         while (opModeIsActive() && rfDrive.getCurrentPosition() > 3 && lfDrive.getCurrentPosition() > 3){}
-        rfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lfDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rbDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lbDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while (opModeIsActive() && rfDrive.getMode() != DcMotor.RunMode.RUN_USING_ENCODER && lfDrive.getMode() != DcMotor.RunMode.RUN_USING_ENCODER){}
+        rfDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lfDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        while (opModeIsActive() && rfDrive.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER && lfDrive.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER){}
     }
-    protected void wait(double seconds) {
+    protected void waitSec(double seconds) {
         ElapsedTime t = new ElapsedTime(System.nanoTime());
         while (opModeIsActive() && t.time() <= seconds) {
 
@@ -47,28 +48,43 @@ public abstract class AutonomousBase extends RobotHardware {
         drive(power);
         double targetPosition = inches*ORBITAL20_PPR*DRIVE_GEAR_RATIO/WHEEL_CIRC;
         boolean hasCorrected = false;
+        double starting = getAngle();
+        double right = power;
+        double left = power;
         while(opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition) {
-            if (!hasCorrected && getleftAbs() >= (targetPosition / 2)) { // Slowing down once we reach 1/2 to our target
-                double newPower;
-                if (power > 0) {
-                    newPower = power - (power / 2);
-                } else {
-                    newPower = power + (power / 2);
-                }
-                drive(newPower);
-                hasCorrected = true;
+            if (getAngle() > starting + 1){
+                left = power * 1.4;
+                right = power;
+            } else if (getAngle() < starting - 1){
+                right = power * 1.4;
+                left = power;
             }
+            setDrivePower(right, left, right, left);
         }
         stopDrive();
         telemetry.addLine("Drove " + inches + " inches to target");
         telemetry.update();
     }
 
+    protected void strafeRot(double power, double rotations){
+        resetEncoders();
+        setDrivePower(-power, power, power, -power);
+        //drive(power);
+        double targetPosition = rotations*ORBITAL20_PPR*DRIVE_GEAR_RATIO;
+
+        while(opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition) {
+
+        }
+        stopDrive();
+        telemetry.addLine("Strafed " + rotations + " Rotations to target");
+        telemetry.update();
+    }
+
     protected void turnHeading(double power, int degreeTarget){ //turns the robot at a set speed to a given z-axis value
-        resetAngle();
+        //resetAngle();
         heading = getAngle();
 
-        while (opModeIsActive() && Math.abs(heading - degreeTarget) > degreeTarget/2){
+        while (opModeIsActive() && Math.abs(heading - degreeTarget) > 0){
             if (heading > degreeTarget){
                 setDrivePower(-power, power, -power, power);
             }
@@ -77,7 +93,7 @@ public abstract class AutonomousBase extends RobotHardware {
             }
             heading = getAngle();
         }
-        while (opModeIsActive() && Math.abs(heading - degreeTarget) > 2){
+       /* while (opModeIsActive() && Math.abs(heading - degreeTarget) > 1){
             if (heading > degreeTarget){
                 setDrivePower(-power/2,power/2, -power/2, power/2);
             }
@@ -85,12 +101,16 @@ public abstract class AutonomousBase extends RobotHardware {
                 setDrivePower(power/2, -power/2, power/2, -power/2);
             }
             heading = getAngle();
-        }
+        }*/
         stopDrive();
         telemetry.addLine("Turned " + degreeTarget + "degrees to target");
         telemetry.update();
         resetAngle();
     }
+
+    ///////////////////////////////////
+    ///////////////Gyro////////////////
+    ///////////////////////////////////
 
     protected void resetAngle()
     {
@@ -106,6 +126,7 @@ public abstract class AutonomousBase extends RobotHardware {
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
+
         if (deltaAngle < -180)
             deltaAngle += 360;
         else if (deltaAngle > 180)
@@ -115,7 +136,31 @@ public abstract class AutonomousBase extends RobotHardware {
 
         lastAngles = angles;
 
-        return (int)globalAngle;
+        return (int)angles.firstAngle;
+    }
+
+
+
+    ///////////////////////////////////
+    ///////////////Data////////////////
+    ///////////////////////////////////
+
+    protected boolean checkGoldL(){
+
+        if (colorL.red() + colorL.green() > colorL.blue() * 2.6){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean checkGoldR(){
+
+        if (colorR.red() + colorR.green() > colorR.blue() * 2.6){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
