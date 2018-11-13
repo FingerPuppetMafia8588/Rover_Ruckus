@@ -25,7 +25,8 @@ public abstract class RobotHardware extends RobotBase {
 
     protected Servo dumpL;
 
-    protected Servo collector;
+    protected Servo collectorL;
+    protected Servo collectorR;
 
     protected Servo armL;
     protected Servo armR;
@@ -73,6 +74,11 @@ public abstract class RobotHardware extends RobotBase {
         rbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        rfDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lfDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         liftL = hardwareMap.dcMotor.get("lift_left");
         liftR = hardwareMap.dcMotor.get("lift_right");
 
@@ -81,8 +87,11 @@ public abstract class RobotHardware extends RobotBase {
         dumpL = hardwareMap.servo.get("dump_left");
         dumpL.setPosition(1);
 
-        collector = hardwareMap.servo.get("collector");
-        collector.setPosition(.5);
+        collectorL = hardwareMap.servo.get("collectorL");
+        collectorL.setPosition(.5);
+
+        collectorR = hardwareMap.servo.get("collectorR");
+        collectorR.setPosition(0.5);
 
         armL = hardwareMap.servo.get("armL");
         armL.setPosition(0);

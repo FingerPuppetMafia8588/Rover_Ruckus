@@ -37,7 +37,8 @@ public class RoverAutoCrater extends AutonomousBase {
             armL.setPosition(0);
             armR.setPosition(1);
 
-            collector.setPosition(0.9);
+            collectorL.setPosition(0.9);
+            collectorR.setPosition(0.1);
         }
         waitSec(1);
 
@@ -45,7 +46,8 @@ public class RoverAutoCrater extends AutonomousBase {
         waitSec(0.5);
         armR.setPosition(1);
         armL.setPosition(0);
-        collector.setPosition(.5);
+        collectorL.setPosition(.5);
+        collectorR.setPosition(0.5);
         waitSec(.5);
         drive(0.15, 6);
 

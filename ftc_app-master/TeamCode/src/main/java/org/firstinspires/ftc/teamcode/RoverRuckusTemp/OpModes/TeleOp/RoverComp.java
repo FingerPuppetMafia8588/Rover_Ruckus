@@ -76,17 +76,21 @@ public class RoverComp extends RobotHardware{
             liftL.setPower(gamepad2.left_stick_y);
             liftR.setPower(gamepad2.left_stick_y);
 
-            if (gamepad2.a){
+            if (gamepad2.a & gamepad2.b){
                 dumpL.setPosition(0.55);
             } else if (gamepad2.b){
                 dumpL.setPosition(1);
+            } else if (gamepad2.a){
+                dumpL.setPosition(0.65);
             }
 
             if (gamepad2.dpad_up){
-                collector.setPosition(0.45);
+                collectorL.setPosition(0.53);
+                collectorR.setPosition(0.47);
             }
             if (gamepad2.dpad_down){
-                collector.setPosition(1);
+                collectorL.setPosition(0.95);
+                collectorR.setPosition(0.05);
             }
 
         }
