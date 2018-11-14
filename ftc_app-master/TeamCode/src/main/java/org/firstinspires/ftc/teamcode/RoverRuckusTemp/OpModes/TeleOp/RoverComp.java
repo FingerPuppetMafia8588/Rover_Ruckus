@@ -86,7 +86,7 @@ public class RoverComp extends RobotHardware{
 
 
             ////////////////////////////////////
-            //////////////Driver 1//////////////
+            //////////////Driver 2//////////////
             ////////////////////////////////////
 
             //use left joystick to raise and lower main linear slide
