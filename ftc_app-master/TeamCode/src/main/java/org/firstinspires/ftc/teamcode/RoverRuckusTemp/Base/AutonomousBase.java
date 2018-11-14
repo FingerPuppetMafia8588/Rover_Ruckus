@@ -84,6 +84,7 @@ public abstract class AutonomousBase extends RobotHardware {
         //resetAngle();
         heading = getAngle();
 
+        //turn until gyro value is met
         while (opModeIsActive() && Math.abs(heading - degreeTarget) > 0){
             if (heading > degreeTarget){
                 setDrivePower(-power, power, -power, power);
@@ -122,6 +123,7 @@ public abstract class AutonomousBase extends RobotHardware {
         //scan for position of gold
         GoldPositiion goldPostiion = getGoldPos();
 
+        //lower respective arms for the scanner gold
         if (goldPostiion == GoldPositiion.LEFT){
             armR.setPosition(1);
         } else if (goldPostiion == GoldPositiion.RIGHT){
@@ -135,6 +137,7 @@ public abstract class AutonomousBase extends RobotHardware {
         }
         waitSec(0.5);
 
+        //drive into gold
         drive(0.15, 6);
         waitSec(0.5);
         armR.setPosition(1);
@@ -178,6 +181,7 @@ public abstract class AutonomousBase extends RobotHardware {
     ///////////////Data////////////////
     ///////////////////////////////////
 
+    //checks if gold mineral is on left
     protected boolean checkGoldL(){
 
         if (colorL.red() + colorL.green() > colorL.blue() * 2.6){
@@ -187,6 +191,7 @@ public abstract class AutonomousBase extends RobotHardware {
         }
     }
 
+    //checks if gold mineral is on right
     protected boolean checkGoldR(){
 
         if (colorR.red() + colorR.green() > colorR.blue() * 2.6){
@@ -196,6 +201,7 @@ public abstract class AutonomousBase extends RobotHardware {
         }
     }
 
+    //gives the position of the gold mineral
     protected GoldPositiion getGoldPos(){
 
         if (checkGoldL()){

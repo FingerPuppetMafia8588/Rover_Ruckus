@@ -49,6 +49,7 @@ public abstract class RobotHardware extends RobotBase {
     protected int heading;
 
 
+    //final variables for moving robot to distance
     protected final double WHEEL_DIAMTER = 4;
     protected final double WHEEL_CIRC = WHEEL_DIAMTER*Math.PI;
     protected final double ORBITAL20_PPR = 537.6;
