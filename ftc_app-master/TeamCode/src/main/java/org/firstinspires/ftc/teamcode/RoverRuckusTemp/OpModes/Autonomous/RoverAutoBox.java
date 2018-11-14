@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
  * Created by isaac.blandin on 11/8/18.
  */
 
-@Autonomous(name = "comp auto box")
+@Autonomous(name = "comp auto box", group = "Autonomous")
 public class RoverAutoBox extends AutonomousBase {
 
     @Override public void runOpMode() {
@@ -26,29 +26,8 @@ public class RoverAutoBox extends AutonomousBase {
         turnHeading(0.15, 0);
         waitSec(1);
 
-        armL.setPosition(0.5);
-        armR.setPosition(0.55);
-        waitSec(1);
+        sample();
 
-        if (checkGoldL()){
-            armR.setPosition(1);
-        } else if (checkGoldR()){
-            armL.setPosition(0);
-        } else {
-            armL.setPosition(0);
-            armR.setPosition(1);
-
-            collectorL.setPosition(0.9);
-            collectorR.setPosition(0.1);
-        }
-        waitSec(1);
-
-        drive(0.15, 6);
-        waitSec(0.5);
-        armR.setPosition(1);
-        armL.setPosition(0);
-        collectorL.setPosition(.5);
-        collectorR.setPosition(0.5);
         waitSec(.5);
         drive(.15, 31);
         waitSec(1);

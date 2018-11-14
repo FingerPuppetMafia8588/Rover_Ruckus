@@ -109,6 +109,41 @@ public abstract class AutonomousBase extends RobotHardware {
     }
 
     ///////////////////////////////////
+    ///////////////Tasks///////////////
+    ///////////////////////////////////
+
+    protected void sample(){
+
+        //lower scanning arms
+        armL.setPosition(0.5);
+        armR.setPosition(0.5);
+        waitSec(0.5);
+
+        //scan for position of gold
+        GoldPositiion goldPostiion = getGoldPos();
+
+        if (goldPostiion == GoldPositiion.LEFT){
+            armR.setPosition(1);
+        } else if (goldPostiion == GoldPositiion.RIGHT){
+            armL.setPosition(0);
+        } else {
+            armL.setPosition(0);
+            armR.setPosition(1);
+
+            collectorL.setPosition(0.9);
+            collectorR.setPosition(0.1);
+        }
+        waitSec(0.5);
+
+        drive(0.15, 6);
+        waitSec(0.5);
+        armR.setPosition(1);
+        armL.setPosition(0);
+        collectorL.setPosition(.5);
+        collectorR.setPosition(0.5);
+    }
+
+    ///////////////////////////////////
     ///////////////Gyro////////////////
     ///////////////////////////////////
 
@@ -139,8 +174,6 @@ public abstract class AutonomousBase extends RobotHardware {
         return (int)angles.firstAngle;
     }
 
-
-
     ///////////////////////////////////
     ///////////////Data////////////////
     ///////////////////////////////////
@@ -161,6 +194,22 @@ public abstract class AutonomousBase extends RobotHardware {
         } else {
             return false;
         }
+    }
+
+    protected GoldPositiion getGoldPos(){
+
+        if (checkGoldL()){
+            return GoldPositiion.LEFT;
+        } else if (checkGoldR()){
+            return GoldPositiion.RIGHT;
+        } else {
+            return GoldPositiion.CENTER;
+        }
+    }
+
+    protected enum GoldPositiion {
+
+        LEFT, CENTER, RIGHT
     }
 
 }
