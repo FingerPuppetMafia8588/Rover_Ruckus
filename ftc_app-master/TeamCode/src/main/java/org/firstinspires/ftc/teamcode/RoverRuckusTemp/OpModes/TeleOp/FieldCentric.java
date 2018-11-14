@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusTemp.OpModes.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.AutonomousBase;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
  */
 
 @TeleOp(name = "field centric")
+@Disabled
 public class FieldCentric extends AutonomousBase{
 
     public void runOpMode(){

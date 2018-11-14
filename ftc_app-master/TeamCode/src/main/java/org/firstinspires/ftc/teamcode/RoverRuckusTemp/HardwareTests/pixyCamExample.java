@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusTemp.HardwareTests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -23,6 +24,7 @@ Bytes    16-bit word    Description
  */
 
 @TeleOp(name = "pixy test")
+@Disabled
 public class pixyCamExample extends LinearOpMode{
 
     //declare pixy cam
