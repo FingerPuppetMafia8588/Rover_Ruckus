@@ -79,6 +79,7 @@ public abstract class RobotHardware extends RobotBase {
         rbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
         liftL = hardwareMap.dcMotor.get("lift_left");
         liftR = hardwareMap.dcMotor.get("lift_right");
 
