@@ -21,24 +21,31 @@ public class RoverAutoBox extends AutonomousBase {
         waitForStart();
 
         resetEncoders();
+
+        //drives up to minerals
         drive(.15, 19);
         waitSec(1);
 
+        //realigns robot
         turnHeading(0.15, 0);
         waitSec(0.5);
         turnHeading(0.15, 0);
         waitSec(1);
 
+        //samples gold
         sample();
 
+        //drives to box and turns
         waitSec(.5);
         drive(.15, 31);
         waitSec(1);
         turnHeading(0.2, -150);
 
+        //drops team marker
         marker.setPosition(1);
         waitSec(.5);
 
+        //turns towards crater and drives to it
         turnHeading(0.2, -135);
         waitSec(0.5);
         strafeRot(-0.3, 1);

@@ -19,16 +19,20 @@ public class RoverAutoCrater extends AutonomousBase {
         waitForStart();
 
         resetEncoders();
+        //drives to minerals
         drive(.15, 19);
         waitSec(1);
 
+        //realigns robot
         turnHeading(0.15, 0);
         waitSec(0.5);
         turnHeading(0.15, 0);
         waitSec(1);
 
+        //samples gold
         sample();
 
+        //drives to crater
         waitSec(.5);
         drive(0.15, 6);
 
