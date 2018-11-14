@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
 public class RoverAutoCrater extends AutonomousBase {
     @Override public void runOpMode(){
         initRobot(RobotRunType.AUTONOMOUS);
-        boolean isGold = false;
+        
         waitForStart();
 
         resetEncoders();

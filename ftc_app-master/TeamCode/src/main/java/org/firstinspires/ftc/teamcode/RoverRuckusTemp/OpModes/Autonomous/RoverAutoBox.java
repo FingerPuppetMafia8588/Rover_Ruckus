@@ -14,7 +14,7 @@ public class RoverAutoBox extends AutonomousBase {
 
     @Override public void runOpMode() {
         initRobot(RobotRunType.AUTONOMOUS);
-        boolean isGold = false;
+
         waitForStart();
 
         resetEncoders();
