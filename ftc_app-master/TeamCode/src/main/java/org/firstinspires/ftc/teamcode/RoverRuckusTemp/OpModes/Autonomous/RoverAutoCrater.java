@@ -7,13 +7,15 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
 
 /**
  * Created by isaac.blandin on 11/6/18.
+ *
+ * An autonomous Program for the crater facing side of the lander which samples the gold and parks in the crater
  */
 
 @Autonomous(name = "comp auto crater", group = "Autonomous")
 public class RoverAutoCrater extends AutonomousBase {
     @Override public void runOpMode(){
         initRobot(RobotRunType.AUTONOMOUS);
-        
+
         waitForStart();
 
         resetEncoders();

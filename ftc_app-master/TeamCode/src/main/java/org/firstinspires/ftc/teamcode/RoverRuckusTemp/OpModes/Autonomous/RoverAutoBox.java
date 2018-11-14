@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
 
 /**
  * Created by isaac.blandin on 11/8/18.
+ *
+ * An autonomous program for the box facing side of the lander which samples the gold, drops the team marker,
+ * and parks in the crater
  */
 
 @Autonomous(name = "comp auto box", group = "Autonomous")
