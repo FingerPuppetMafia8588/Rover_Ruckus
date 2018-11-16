@@ -59,6 +59,8 @@ public abstract class RobotHardware extends RobotBase {
     protected final double STRAFE_RATIO = 1;
     protected final double TURN_RATIO = 0.7;
 
+    protected final double GOLD_RATIO = 2.6;
+
     @Override
     protected void initRobot(RobotRunType robotRunType){
 
@@ -161,5 +163,56 @@ public abstract class RobotHardware extends RobotBase {
             this.lr = lr;
             this.rr = rr;
         }
+    }
+
+    protected void MecanumFormula(double forward, double strafe, double turning){
+
+        double rfPower, rbPower, lfPower, lbPower;
+        double max;
+
+        //reset powers
+        lfPower = 0;
+        lbPower = 0;
+        rfPower = 0;
+        rbPower = 0;
+
+        //handle forward/backward movement
+        lfPower += forward;
+        lbPower += forward;
+        rfPower += forward;
+        rbPower += forward;
+
+        //handle strafing movement
+        lfPower += strafe;
+        lbPower -= strafe;
+        rfPower -= strafe;
+        rbPower += strafe;
+
+        //handle turning movement
+        lfPower += turning;
+        lbPower += turning;
+        rfPower -= turning;
+        rbPower -= turning;
+
+        //scale powers of exceeding those of the motor
+        max = Math.abs(lfPower);
+        if (Math.abs(lbPower) > max){
+            max = Math.abs(lbPower);
+        }
+        if (Math.abs(rfPower) > max){
+            max = Math.abs(rfPower);
+        }
+        if (Math.abs(rbPower) > max){
+            max = Math.abs(rbPower);
+        }
+
+        if (max > 1){
+            lbPower /= max;
+            lfPower /= max;
+            rbPower /= max;
+            rfPower /= max;
+        }
+
+        setDrivePower(rfPower, lfPower, rbPower, lbPower);
     }
 }

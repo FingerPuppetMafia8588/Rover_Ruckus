@@ -121,12 +121,12 @@ public abstract class AutonomousBase extends RobotHardware {
         waitSec(0.5);
 
         //scan for position of gold
-        GoldPositiion goldPostiion = getGoldPos();
+        GoldPosition goldPosition = getGoldPos();
 
         //lower respective arms for the scanner gold
-        if (goldPostiion == GoldPositiion.LEFT){
+        if (goldPosition == GoldPosition.LEFT){
             armR.setPosition(1);
-        } else if (goldPostiion == GoldPositiion.RIGHT){
+        } else if (goldPosition == GoldPosition.RIGHT){
             armL.setPosition(0);
         } else {
             armL.setPosition(0);
@@ -184,7 +184,7 @@ public abstract class AutonomousBase extends RobotHardware {
     //checks if gold mineral is on left
     protected boolean checkGoldL(){
 
-        if (colorL.red() + colorL.green() > colorL.blue() * 2.6){
+        if (colorL.red() + colorL.green() > colorL.blue() * GOLD_RATIO){
             return true;
         } else {
             return false;
@@ -194,7 +194,7 @@ public abstract class AutonomousBase extends RobotHardware {
     //checks if gold mineral is on right
     protected boolean checkGoldR(){
 
-        if (colorR.red() + colorR.green() > colorR.blue() * 2.6){
+        if (colorR.red() + colorR.green() > colorR.blue() * GOLD_RATIO){
             return true;
         } else {
             return false;
@@ -202,18 +202,18 @@ public abstract class AutonomousBase extends RobotHardware {
     }
 
     //gives the position of the gold mineral
-    protected GoldPositiion getGoldPos(){
+    protected GoldPosition getGoldPos(){
 
         if (checkGoldL()){
-            return GoldPositiion.LEFT;
+            return GoldPosition.LEFT;
         } else if (checkGoldR()){
-            return GoldPositiion.RIGHT;
+            return GoldPosition.RIGHT;
         } else {
-            return GoldPositiion.CENTER;
+            return GoldPosition.CENTER;
         }
     }
 
-    protected enum GoldPositiion {
+    protected enum GoldPosition {
 
         LEFT, CENTER, RIGHT
     }
