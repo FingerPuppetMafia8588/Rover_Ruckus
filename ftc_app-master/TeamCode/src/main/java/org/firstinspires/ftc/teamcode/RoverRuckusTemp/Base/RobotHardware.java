@@ -23,6 +23,8 @@ public abstract class RobotHardware extends RobotBase {
     protected DcMotor liftR;
     protected DcMotor liftL;
 
+    protected DcMotor hang;
+
     protected Servo dumpL;
 
     protected Servo collectorL;
@@ -88,14 +90,14 @@ public abstract class RobotHardware extends RobotBase {
 
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        hang = hardwareMap.dcMotor.get("hang");
+
         dumpL = hardwareMap.servo.get("dump_left");
         dumpL.setPosition(1);
 
         collectorL = hardwareMap.servo.get("collectorL");
-        collectorL.setPosition(.5);
 
         collectorR = hardwareMap.servo.get("collectorR");
-        collectorR.setPosition(0.5);
 
         armL = hardwareMap.servo.get("armL");
         armL.setPosition(0);
@@ -112,6 +114,10 @@ public abstract class RobotHardware extends RobotBase {
 
         // initialize gyro if starting in autonomous
         if (robotRunType == RobotRunType.AUTONOMOUS){
+
+            collectorL.setPosition(.5);
+            collectorR.setPosition(0.5);
+
             //initialize gyro
             BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 

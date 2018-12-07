@@ -48,6 +48,9 @@ public class RoverComp extends RobotHardware{
             liftL.setPower(gamepad2.left_stick_y);
             liftR.setPower(gamepad2.left_stick_y);
 
+
+            hang.setPower(gamepad2.right_stick_y);
+
             //use a and b to store and dump mineral box
             if (gamepad2.a & gamepad2.b){
                 dumpL.setPosition(0.55);
