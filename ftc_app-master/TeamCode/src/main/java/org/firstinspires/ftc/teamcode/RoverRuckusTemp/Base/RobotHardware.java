@@ -88,9 +88,14 @@ public abstract class RobotHardware extends RobotBase {
         liftL = hardwareMap.dcMotor.get("lift_left");
         liftR = hardwareMap.dcMotor.get("lift_right");
 
+        liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         hang = hardwareMap.dcMotor.get("hang");
+
+        hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hang.setDirection(DcMotorSimple.Direction.REVERSE);
 
         dumpL = hardwareMap.servo.get("dump_left");
         dumpL.setPosition(1);
