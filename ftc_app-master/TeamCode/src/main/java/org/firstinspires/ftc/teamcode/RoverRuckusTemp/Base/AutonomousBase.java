@@ -47,17 +47,17 @@ public abstract class AutonomousBase extends RobotHardware {
         resetEncoders();
         drive(power);
         double targetPosition = inches*ORBITAL20_PPR*DRIVE_GEAR_RATIO/WHEEL_CIRC;
-        boolean hasCorrected = false;
         double starting = getAngle();
         double right = power;
         double left = power;
         while(opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition) {
-            if (getAngle() > starting + 1){
-                left = power * 1.4;
-                right = power;
-            } else if (getAngle() < starting - 1){
-                right = power * 1.4;
-                left = power;
+            double delta = starting - getAngle();
+            right = power + (delta / 40);
+            left = power - (delta / 40);
+
+            if (Math.abs(right) > 1 || Math.abs(left) > 1){
+                right /= Math.max(right, left);
+                left /= Math.max(right, left);
             }
             setDrivePower(right, left, right, left);
         }
@@ -161,6 +161,11 @@ public abstract class AutonomousBase extends RobotHardware {
     {
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return (int)angles.firstAngle;
+    }
+
+    protected int getGlobal(){
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
@@ -174,7 +179,7 @@ public abstract class AutonomousBase extends RobotHardware {
 
         lastAngles = angles;
 
-        return (int)angles.firstAngle;
+        return (int)globalAngle;
     }
 
     ///////////////////////////////////
