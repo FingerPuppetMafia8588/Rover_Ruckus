@@ -157,30 +157,13 @@ public abstract class AutonomousBase extends RobotHardware {
         globalAngle = 0;
     }
 
-    protected int getAngle()
+    private int getAngle()
     {
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return (int)angles.firstAngle;
     }
 
-    protected int getGlobal(){
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-
-
-        if (deltaAngle < -180)
-            deltaAngle += 360;
-        else if (deltaAngle > 180)
-            deltaAngle -= 360;
-
-        globalAngle += deltaAngle;
-
-        lastAngles = angles;
-
-        return (int)globalAngle;
-    }
 
     ///////////////////////////////////
     ///////////////Data////////////////
