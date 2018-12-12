@@ -21,16 +21,11 @@ public class FieldCentric extends AutonomousBase{
         waitForStart();
         while (opModeIsActive()){
 
-
             if(gamepad1.a && gamepad1.b){
                 resetAngle();
             }
 
-            double x1 = gamepad1.left_stick_x, y1 = -gamepad1.left_stick_y;
-            double v = Math.sqrt(x1 * x1 + y1 * y1);
-            double theta = Math.atan2(x1, y1);
-            double current = Math.toRadians(getGlobal() % 360);
-            drive(theta + current, v, gamepad1.right_stick_x);
+            FieldCentricDrive();
         }
         stop();
     }
