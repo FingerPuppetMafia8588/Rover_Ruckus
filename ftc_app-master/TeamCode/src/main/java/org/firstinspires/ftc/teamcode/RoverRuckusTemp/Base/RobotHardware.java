@@ -277,7 +277,7 @@ public abstract class RobotHardware extends RobotBase {
         rbDrive.setPower(w.rr);
     }
 
-    protected int getGlobal(){
+    protected double getGlobal(){
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
@@ -292,7 +292,7 @@ public abstract class RobotHardware extends RobotBase {
 
         lastAngles = angles;
 
-        return (int)globalAngle;
+        return globalAngle;
     }
 }
 
