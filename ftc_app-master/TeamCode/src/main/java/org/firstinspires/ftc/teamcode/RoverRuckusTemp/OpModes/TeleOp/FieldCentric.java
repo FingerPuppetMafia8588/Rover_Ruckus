@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
  */
 
 @TeleOp(name = "field centric")
-@Disabled
+//@Disabled
 public class FieldCentric extends AutonomousBase{
 
     public void runOpMode(){
