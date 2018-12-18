@@ -37,7 +37,7 @@ public class RoverAutoBox extends AutonomousBase {
 
         //drives to box and turns
         waitSec(.5);
-        drive(.15, 31);
+        drive(.15, 29);
         waitSec(1);
         turnHeading(0.2, -150);
 

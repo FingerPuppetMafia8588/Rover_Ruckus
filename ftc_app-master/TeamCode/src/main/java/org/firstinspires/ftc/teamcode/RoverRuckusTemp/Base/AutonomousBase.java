@@ -138,7 +138,7 @@ public abstract class AutonomousBase extends RobotHardware {
         waitSec(0.5);
 
         //drive into gold
-        drive(0.15, 6);
+        drive(0.15, 8);
         waitSec(0.5);
         armR.setPosition(1);
         armL.setPosition(0);
