@@ -62,12 +62,12 @@ public class RoverComp extends RobotHardware{
 
             //use dpad up and down to control collector
             if (gamepad2.dpad_up){
-                collectorL.setPosition(0.53);
-                collectorR.setPosition(0.47);
+                collectorL.setPosition(0.45);
+                collectorR.setPosition(0.55);
             }
             if (gamepad2.dpad_down){
-                collectorL.setPosition(0.95);
-                collectorR.setPosition(0.05);
+                collectorL.setPosition(0.90);
+                collectorR.setPosition(0.10);
             }
 
         }
