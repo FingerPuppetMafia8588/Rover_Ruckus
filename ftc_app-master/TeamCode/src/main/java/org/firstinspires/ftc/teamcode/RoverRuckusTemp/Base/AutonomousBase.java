@@ -32,6 +32,7 @@ public abstract class AutonomousBase extends RobotHardware {
 
         }
     }
+
     protected int getRightAbs(){return Math.abs(rfDrive.getCurrentPosition());}
     protected int getleftAbs(){return Math.abs(lfDrive.getCurrentPosition());}
 
@@ -164,7 +165,6 @@ public abstract class AutonomousBase extends RobotHardware {
         return (int)angles.firstAngle;
     }
 
-
     ///////////////////////////////////
     ///////////////Data////////////////
     ///////////////////////////////////
@@ -204,6 +204,15 @@ public abstract class AutonomousBase extends RobotHardware {
     protected enum GoldPosition {
 
         LEFT, CENTER, RIGHT
+    }
+
+    /////////////////////////////////////////////////
+    ////////////////////Pixy Cam/////////////////////
+    /////////////////////////////////////////////////
+
+    protected boolean goldVisible() {
+
+        return false;
     }
 
 }

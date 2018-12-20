@@ -23,7 +23,6 @@ public class RoverComp extends RobotHardware{
 
         while (opModeIsActive()){
 
-
             ////////////////////////////////////
             //////////////Driver 1//////////////
             ////////////////////////////////////
@@ -39,7 +38,6 @@ public class RoverComp extends RobotHardware{
 
             MecanumFormula(y1, x1, x2);
 
-
             ////////////////////////////////////
             //////////////Driver 2//////////////
             ////////////////////////////////////
@@ -47,7 +45,6 @@ public class RoverComp extends RobotHardware{
             //use left joystick to raise and lower main linear slide
             liftL.setPower(gamepad2.left_stick_y);
             liftR.setPower(gamepad2.left_stick_y);
-
 
             hang.setPower(gamepad2.right_stick_y);
 

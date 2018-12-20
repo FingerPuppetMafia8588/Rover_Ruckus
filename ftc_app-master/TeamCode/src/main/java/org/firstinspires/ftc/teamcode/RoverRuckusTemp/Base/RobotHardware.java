@@ -41,9 +41,6 @@ public abstract class RobotHardware extends RobotBase {
     protected ColorSensor colorL;
     protected ColorSensor colorR;
 
-
-
-
     // declares gyro
     protected BNO055IMU imu;
     protected Orientation lastAngles = new Orientation();
@@ -52,7 +49,6 @@ public abstract class RobotHardware extends RobotBase {
     protected double globalAngle;
 
     protected int heading;
-
 
     //final variables for moving robot to distance
     protected final double WHEEL_DIAMTER = 4;
@@ -87,7 +83,6 @@ public abstract class RobotHardware extends RobotBase {
         rbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
         liftL = hardwareMap.dcMotor.get("lift_left");
         liftR = hardwareMap.dcMotor.get("lift_right");
 
@@ -117,8 +112,6 @@ public abstract class RobotHardware extends RobotBase {
 
         colorL = hardwareMap.get(ColorSensor.class, "colorL");
         colorR = hardwareMap.get(ColorSensor.class, "colorR");
-
-
 
         // initialize gyro if starting in autonomous
         if (robotRunType == RobotRunType.AUTONOMOUS){
@@ -281,7 +274,6 @@ public abstract class RobotHardware extends RobotBase {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-
 
         if (deltaAngle < -180)
             deltaAngle += 360;
