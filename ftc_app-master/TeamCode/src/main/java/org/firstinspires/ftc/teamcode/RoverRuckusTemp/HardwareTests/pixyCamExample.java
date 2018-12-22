@@ -24,7 +24,7 @@ Bytes    16-bit word    Description
  */
 
 @TeleOp(name = "pixy test")
-@Disabled
+//@Disabled
 public class pixyCamExample extends LinearOpMode{
 
     //declare pixy cam
