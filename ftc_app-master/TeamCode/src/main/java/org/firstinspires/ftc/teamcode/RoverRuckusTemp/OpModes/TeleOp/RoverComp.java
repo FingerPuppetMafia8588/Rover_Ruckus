@@ -63,8 +63,8 @@ public class RoverComp extends RobotHardware{
                 collectorR.setPosition(0.55);
             }
             if (gamepad2.dpad_down){
-                collectorL.setPosition(0.90);
-                collectorR.setPosition(0.10);
+                collectorL.setPosition(0.88);
+                collectorR.setPosition(0.12);
             }
 
         }
