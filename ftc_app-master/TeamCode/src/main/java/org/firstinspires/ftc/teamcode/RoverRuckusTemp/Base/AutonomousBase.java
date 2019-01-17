@@ -3,10 +3,13 @@ package org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 /**
  * Created by isaac.blandin on 8/28/18.
@@ -201,18 +204,9 @@ public abstract class AutonomousBase extends RobotHardware {
         }
     }
 
-    protected enum GoldPosition {
-
-        LEFT, CENTER, RIGHT
+    private enum GoldPosition {
+        LEFT, RIGHT, CENTER
     }
 
-    /////////////////////////////////////////////////
-    ////////////////////Pixy Cam/////////////////////
-    /////////////////////////////////////////////////
-
-    protected boolean goldVisible() {
-
-        return false;
-    }
 
 }
