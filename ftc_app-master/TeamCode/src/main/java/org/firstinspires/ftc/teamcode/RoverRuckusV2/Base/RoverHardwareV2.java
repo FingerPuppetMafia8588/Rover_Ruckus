@@ -7,9 +7,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotBase;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotHardware;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
+import org.firstinspires.ftc.teamcode.RoverRuckusV2.Tests.InferredMIneralDetection;
 
 /**
  * Created by isaac.blandin on 1/7/19.
@@ -48,6 +51,16 @@ public abstract class RoverHardwareV2 extends RobotBase {
     protected final double FORWARD_RATIO = 1;
     protected final double STRAFE_RATIO = 1;
     protected final double TURN_RATIO = 0.7;
+
+
+    protected static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    protected static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    protected static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+
+    protected static final String VUFORIA_KEY = "ATMaWPX/////AAABmZSp02GUa07oranA3Pd4lFdFBNnwHNZGGVH5c4S2XFLBGoC8s3a5qi5VEb6If/Xx/hl6YMfe0BbeThv0ZoAiC7i2A/AuHEtqsNdpx5loSt5uV4DGnw860ZPto6y7NN8cpjr+3rhDwriTQXGgoJ5fPSvI/QhfXtZTz0peh533l76mxJ4lKLNqHWzYZiG5CptqisPRrVQl+fIv2AjOg9vhNxZMEq9yT3KQNVxK88vriPIaOzDeN8Qy8WeQIbOS5tEP88Ax/tEwsA4DTHr80+6ngkdsC4qXZNkS/ooy9VLTev55fjqxhlyLZm5/Xs+svNFMwlV/0Shn3ssiAxFuffDymF24wLPmfaB/1G2GBT4VxISO";
+    protected VuforiaLocalizer vuforia;
+    protected TFObjectDetector tfod;
+    protected GOLD_POSITION gold_position;
 
     protected void initRobotV2 (RobotRunType robotRunType){
 
@@ -211,5 +224,9 @@ public abstract class RoverHardwareV2 extends RobotBase {
         lastAngles = angles;
 
         return globalAngle;
+    }
+
+    private enum GOLD_POSITION {
+        LEFT, RIGHT, CENTER
     }
 }
