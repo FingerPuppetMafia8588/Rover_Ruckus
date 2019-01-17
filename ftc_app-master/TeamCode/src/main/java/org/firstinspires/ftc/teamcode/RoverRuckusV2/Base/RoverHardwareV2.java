@@ -226,7 +226,7 @@ public abstract class RoverHardwareV2 extends RobotBase {
         return globalAngle;
     }
 
-    private enum GOLD_POSITION {
+    protected enum GOLD_POSITION {
         LEFT, RIGHT, CENTER
     }
 }
