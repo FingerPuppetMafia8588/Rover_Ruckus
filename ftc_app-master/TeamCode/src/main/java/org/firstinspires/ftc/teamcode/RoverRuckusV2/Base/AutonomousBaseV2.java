@@ -128,6 +128,16 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
     ///////////////Tasks///////////////
     ///////////////////////////////////
 
+    protected void sample(){
+        GOLD_POSITION goldPos = getGoldPos();
+        if (goldPos == GOLD_POSITION.RIGHT){
+
+        } else if (goldPos == GOLD_POSITION.CENTER){
+
+        } else {
+
+        }
+    }
 
     ///////////////////////////////////
     ///////////////Gyro////////////////
@@ -198,11 +208,11 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
                     }
 
                     if (goldMineralX == -1) {
-                        gold_position = GOLD_POSITION.LEFT;
-                    } else if (goldMineralX > silverMineral1X) {
                         gold_position = GOLD_POSITION.RIGHT;
-                    } else {
+                    } else if (goldMineralX > silverMineral1X) {
                         gold_position = GOLD_POSITION.CENTER;
+                    } else {
+                        gold_position = GOLD_POSITION.LEFT;
                     }
 
                     if (gold_position == GOLD_POSITION.LEFT) {
