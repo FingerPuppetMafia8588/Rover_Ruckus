@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -137,6 +138,47 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         } else {
 
         }
+    }
+
+    ///////////////////////////////////
+    /////////////////Arm///////////////
+    ///////////////////////////////////
+
+    protected void rotArm(int degrees, double power){
+
+        int target = NEVEREST60_PPR * ARM_RATIO * 360 / degrees;
+
+        while (Math.abs(armRight.getCurrentPosition()) < target && armLeft.getCurrentPosition() < target){
+            armLeft.setPower(power);
+            armRight.setPower(power);
+        }
+        armRight.setPower(0);
+        armLeft.setPower(0);
+
+        telemetry.addLine("Rotated Arm " + degrees + " degrees");
+        telemetry.update();
+
+    }
+
+    protected void extendArm(int inches, double power){
+
+        int target =  (int) (NEVEREST40_PPR * inches / Math.PI);
+
+        while (Math.abs(armExtension.getCurrentPosition()) < target){
+            armExtension.setPower(power);
+        }
+        armExtension.setPower(0);
+
+        telemetry.addLine("Extended Arm " + inches + " inches");
+        telemetry.update();
+
+    }
+
+    protected void collectorTime(int seconds, double power){
+
+        collector.setPower(power);
+        waitSec(seconds);
+        collector.setPower(0);
     }
 
     ///////////////////////////////////

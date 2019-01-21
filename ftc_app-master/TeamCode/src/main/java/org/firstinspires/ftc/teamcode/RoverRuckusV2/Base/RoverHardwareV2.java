@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.RoverRuckusV2.Base;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -18,7 +20,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusV2.Tests.InferredMIneralDetecti
  * Created by isaac.blandin on 1/7/19.
  */
 
-public abstract class RoverHardwareV2 extends RobotBase {
+public abstract class RoverHardwareV2 extends RobotBaseV2 {
 
     //declares drive motors
     protected DcMotor rfDrive;
@@ -32,6 +34,10 @@ public abstract class RoverHardwareV2 extends RobotBase {
     protected DcMotor armExtension;
 
     protected DcMotor collector;
+
+    protected Servo hangLock;
+
+    protected Servo dump;
 
     // declares gyro
     protected BNO055IMU imu;
@@ -52,6 +58,10 @@ public abstract class RoverHardwareV2 extends RobotBase {
     protected final double STRAFE_RATIO = 1;
     protected final double TURN_RATIO = 0.7;
 
+    protected final int NEVEREST60_PPR = 1680;
+    protected final int NEVEREST40_PPR = 1120;
+    protected final int ARM_RATIO = 9;
+
 
     protected static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     protected static final String LABEL_GOLD_MINERAL = "Gold Mineral";
@@ -64,6 +74,8 @@ public abstract class RoverHardwareV2 extends RobotBase {
 
     protected void initRobotV2 (RobotRunType robotRunType){
 
+
+        // set up drive motors
         rfDrive = hardwareMap.dcMotor.get("right_front");
         lfDrive = hardwareMap.dcMotor.get("left_front");
         rbDrive = hardwareMap.dcMotor.get("right_back");
@@ -82,7 +94,69 @@ public abstract class RoverHardwareV2 extends RobotBase {
         rbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lbDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        // set up arm rotation motors
+        armRight = hardwareMap.dcMotor.get("arm_right");
+        armLeft = hardwareMap.dcMotor.get("arm_left");
+
+        armRight.setDirection(DcMotor.Direction.REVERSE);
+
+        armRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // set up extension motor
+        armExtension = hardwareMap.dcMotor.get("arm_extension");
+
+        armExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        armExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //set up collector motor
+        collector = hardwareMap.dcMotor.get("collector");
+
+        collector.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //set up hanging lock servo
+        hangLock = hardwareMap.servo.get("hang_lock");
+
+        //set up dumping servo
+        dump = hardwareMap.servo.get("dump");
+
         if (robotRunType == RobotRunType.AUTONOMOUS){
+
+            //set autonomous servo positions
+            hangLock.setPosition(0);
+            dump.setPosition(1);
+
+            //initialize gyro
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+            parameters.mode = BNO055IMU.SensorMode.IMU;
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parameters.loggingEnabled = false;
+
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+            imu.initialize(parameters);
+
+            //post to telemetry when gyro is calibrating
+            telemetry.addData("Mode", "Calibrating");
+            telemetry.update();
+
+            //post to telemetry when gyro is calibrated
+            while (!isStopRequested() && !imu.isGyroCalibrated()){
+                sleep(50);
+                idle();
+            }
+
+            telemetry.addData("Mode", "waiting for start");
+            telemetry.addData("imu calibration", imu.getCalibrationStatus().toString());
+            telemetry.update();
 
         }
     }

@@ -68,5 +68,6 @@ public class RoverComp extends RobotHardware{
             }
 
         }
+        stop();
     }
 }
