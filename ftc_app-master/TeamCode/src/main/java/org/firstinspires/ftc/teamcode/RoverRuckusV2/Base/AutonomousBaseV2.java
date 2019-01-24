@@ -36,6 +36,21 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         }
     }
 
+    protected void resetArmEncoders() {
+        collector.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        while (opModeIsActive() && armRight.getCurrentPosition() > 3 && armLeft.getCurrentPosition() > 3) {
+        }
+        collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        while (opModeIsActive() && armRight.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER && armLeft.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
+        }
+    }
+
     protected void waitSec(double seconds) {
         ElapsedTime t = new ElapsedTime(System.nanoTime());
         while (opModeIsActive() && t.time() <= seconds) {
@@ -110,15 +125,6 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
             }
             heading = getAngle();
         }
-       /* while (opModeIsActive() && Math.abs(heading - degreeTarget) > 1){
-            if (heading > degreeTarget){
-                setDrivePower(-power/2,power/2, -power/2, power/2);
-            }
-            if (heading < degreeTarget){
-                setDrivePower(power/2, -power/2, power/2, -power/2);
-            }
-            heading = getAngle();
-        }*/
         stopDrive();
         telemetry.addLine("Turned " + degreeTarget + "degrees to target");
         telemetry.update();
@@ -138,6 +144,14 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         } else {
 
         }
+    }
+
+    protected void land(){
+        rotArm(5, -1);
+        hangLock.setPosition(0.5);
+        waitSec(0.5);
+        rotArm(85,1);
+        strafeRot(-0.5, 3);
     }
 
     ///////////////////////////////////

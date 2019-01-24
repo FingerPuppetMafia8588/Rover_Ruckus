@@ -100,8 +100,8 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
 
         armRight.setDirection(DcMotor.Direction.REVERSE);
 
-        armRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -109,14 +109,16 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         // set up extension motor
         armExtension = hardwareMap.dcMotor.get("arm_extension");
 
-        armExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         armExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //set up collector motor
         collector = hardwareMap.dcMotor.get("collector");
 
-        collector.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        collector.setDirection(DcMotorSimple.Direction.REVERSE);
 
         collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -126,37 +128,37 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         //set up dumping servo
         dump = hardwareMap.servo.get("dump");
 
+        //initialize gyro
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
+
+        //post to telemetry when gyro is calibrating
+        telemetry.addData("Mode", "Calibrating");
+        telemetry.update();
+
+        //post to telemetry when gyro is calibrated
+        while (!isStopRequested() && !imu.isGyroCalibrated()){
+            sleep(50);
+            idle();
+        }
+
+        telemetry.addData("Mode", "waiting for start");
+        telemetry.addData("imu calibration", imu.getCalibrationStatus().toString());
+        telemetry.update();
+
         if (robotRunType == RobotRunType.AUTONOMOUS){
 
             //set autonomous servo positions
             hangLock.setPosition(0);
             dump.setPosition(1);
-
-            //initialize gyro
-            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-            parameters.mode = BNO055IMU.SensorMode.IMU;
-            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-            parameters.loggingEnabled = false;
-
-            imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-            imu.initialize(parameters);
-
-            //post to telemetry when gyro is calibrating
-            telemetry.addData("Mode", "Calibrating");
-            telemetry.update();
-
-            //post to telemetry when gyro is calibrated
-            while (!isStopRequested() && !imu.isGyroCalibrated()){
-                sleep(50);
-                idle();
-            }
-
-            telemetry.addData("Mode", "waiting for start");
-            telemetry.addData("imu calibration", imu.getCalibrationStatus().toString());
-            telemetry.update();
 
         }
     }

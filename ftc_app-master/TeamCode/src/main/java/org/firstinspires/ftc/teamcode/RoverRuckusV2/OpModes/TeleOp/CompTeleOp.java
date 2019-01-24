@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotHardware;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
+import org.firstinspires.ftc.teamcode.RoverRuckusV2.Base.AutonomousBaseV2;
 import org.firstinspires.ftc.teamcode.RoverRuckusV2.Base.RoverHardwareV2;
 
 /**
@@ -11,12 +12,13 @@ import org.firstinspires.ftc.teamcode.RoverRuckusV2.Base.RoverHardwareV2;
  */
 
 @TeleOp(name = "TeleOp V2")
-public class CompTeleOp extends RoverHardwareV2{
+public class CompTeleOp extends AutonomousBaseV2{
 
     @Override
     public void runOpMode() {
 
         initRobotV2(RobotRunType.TELEOP);
+
 
         double collectorPow;
 
@@ -30,6 +32,10 @@ public class CompTeleOp extends RoverHardwareV2{
 
             //control drive train
             FieldCentricDrive();
+
+            if (gamepad1.a && gamepad1.b){
+                resetAngle();
+            }
 
             /** //////////////////////////////////
              ///////////////Driver 1///////////////
