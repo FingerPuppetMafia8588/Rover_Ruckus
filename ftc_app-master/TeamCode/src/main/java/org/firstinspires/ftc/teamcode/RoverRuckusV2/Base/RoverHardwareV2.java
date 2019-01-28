@@ -158,7 +158,7 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
 
             //set autonomous servo positions
             hangLock.setPosition(0);
-            dump.setPosition(1);
+            dump.setPosition(0);
 
         }
     }
@@ -228,11 +228,17 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
     }
 
     protected void FieldCentricDrive(){
+
+        double turnRatio = 1;
+        if (gamepad1.right_bumper){
+            turnRatio = 0.5;
+        }
+
         double x1 = gamepad1.left_stick_x, y1 = -gamepad1.left_stick_y;
         double v = Math.sqrt(x1 * x1 + y1 * y1);
         double theta = Math.atan2(x1, y1);
         double current = Math.toRadians(getGlobal() % 360);
-        drive(theta + current, v, gamepad1.right_stick_x);
+        drive(theta + current, v, gamepad1.right_stick_x * turnRatio);
     }
 
     protected static class Wheels {

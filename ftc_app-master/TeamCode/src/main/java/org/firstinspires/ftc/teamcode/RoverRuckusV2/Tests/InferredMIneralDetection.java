@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusV2.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @TeleOp(name = "inferred")
+@Disabled
 public class InferredMIneralDetection extends LinearOpMode {
 
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";

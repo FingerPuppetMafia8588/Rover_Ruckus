@@ -136,22 +136,33 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
     ///////////////////////////////////
 
     protected void sample(){
-        GOLD_POSITION goldPos = getGoldPos();
-        if (goldPos == GOLD_POSITION.RIGHT){
+        waitSec(1);
+        if (gold_position == GOLD_POSITION.RIGHT){
+            drive(-0.3, 12);
+            strafeRot(-1, 4);
+            strafeRot(1, 4);
+            turnHeading(0.3, 90);
 
-        } else if (goldPos == GOLD_POSITION.CENTER){
+        } else if (gold_position == GOLD_POSITION.CENTER){
+            strafeRot(-1, 4);
+            strafeRot(1,4 );
+            turnHeading(0.3, 90);
 
         } else {
+            drive(0.3, 12);
+            strafeRot(-1, 4);
+            strafeRot(1, 4);
+            turnHeading(0.3, 90);
 
         }
     }
 
     protected void land(){
-        rotArm(5, -1);
+        rotArm(2, -1);
         hangLock.setPosition(0.5);
         waitSec(0.5);
-        rotArm(85,1);
-        strafeRot(-0.5, 3);
+        rotArm(60,0.5);
+        strafeRot(0.5, 3);
     }
 
     ///////////////////////////////////
@@ -160,9 +171,9 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
 
     protected void rotArm(int degrees, double power){
 
-        int target = NEVEREST60_PPR * ARM_RATIO * 360 / degrees;
+        int target = NEVEREST60_PPR * ARM_RATIO * degrees / 360;
 
-        while (Math.abs(armRight.getCurrentPosition()) < target && armLeft.getCurrentPosition() < target){
+        while (Math.abs(armRight.getCurrentPosition()) < target ){
             armLeft.setPower(power);
             armRight.setPower(power);
         }
@@ -178,7 +189,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
 
         int target =  (int) (NEVEREST40_PPR * inches / Math.PI);
 
-        while (Math.abs(armExtension.getCurrentPosition()) < target){
+        while (Math.abs(armExtension.getCurrentPosition()) < target && !isStopRequested()){
             armExtension.setPower(power);
         }
         armExtension.setPower(0);
@@ -215,7 +226,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
     ////////////////////Tensor Flow//////////////////
     /////////////////////////////////////////////////
 
-    private void initVuforia() {
+    protected void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
@@ -230,7 +241,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
     }
 
-    private void initTfod() {
+    protected void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -239,12 +250,13 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
     }
 
 
-    protected GOLD_POSITION getGoldPos() {
+    protected void getGoldPos() {
 
         if (tfod != null) {
             tfod.activate();
         }
-        while (gold_position == null) {
+
+        while(gold_position == null && !isStopRequested()) {
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
@@ -278,14 +290,15 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
                     } else {
                         telemetry.addData("Position", "Right");
                     }
+
                     telemetry.update();
+
+
+
                 }
             }
-            if (tfod != null) {
-                tfod.shutdown();
-            }
         }
-        return gold_position;
 
+        tfod.deactivate();
     }
 }

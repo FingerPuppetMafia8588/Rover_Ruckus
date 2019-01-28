@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusTemp.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.AutonomousBase;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
  */
 
 @Autonomous(name = "comp auto crater", group = "Autonomous")
+@Disabled
 public class RoverAutoCrater extends AutonomousBase {
     @Override public void runOpMode(){
         initRobot(RobotRunType.AUTONOMOUS);
