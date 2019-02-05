@@ -173,7 +173,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
 
         int target = NEVEREST60_PPR * ARM_RATIO * degrees / 360;
 
-        while (Math.abs(armRight.getCurrentPosition()) < target ){
+        while (Math.abs(armRight.getCurrentPosition()) < target && opModeIsActive()){
             armLeft.setPower(power);
             armRight.setPower(power);
         }
@@ -256,7 +256,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
             tfod.activate();
         }
 
-        while(gold_position == null && !isStopRequested()) {
+        while(gold_position == null && opModeIsActive()) {
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
