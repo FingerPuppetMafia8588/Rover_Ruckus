@@ -259,10 +259,14 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
             turnRatio = 0.5;
         }
 
+        //pull coordinate values from x and y axis of joystick
         double x1 = gamepad1.left_stick_x, y1 = -gamepad1.left_stick_y;
+        //create polar vector of given the joystick values
         double v = Math.sqrt(x1 * x1 + y1 * y1);
         double theta = Math.atan2(x1, y1);
+        //get radian value of the robots angle
         double current = Math.toRadians(getGlobal() % 360);
+        //apply values to vector-based holonomic drive
         drive(theta + current, v, gamepad1.right_stick_x * turnRatio);
     }
 
