@@ -17,9 +17,8 @@ public class CompTeleOp extends AutonomousBaseV2{
     @Override
     public void runOpMode() {
 
+        //set up robot for teleop
         initRobotV2(RobotRunType.TELEOP);
-
-
         double collectorPow;
 
         waitForStart();
@@ -32,7 +31,7 @@ public class CompTeleOp extends AutonomousBaseV2{
 
             //control drive train
             FieldCentricDrive();
-
+            //allows reset of gyroscope when aligned with driver preference
             if (gamepad1.a && gamepad1.b){
                 resetAngle();
             }
@@ -41,11 +40,12 @@ public class CompTeleOp extends AutonomousBaseV2{
              ///////////////Driver 1///////////////
              ////////////////////////////////// **/
 
+            //control rotation of arm
             armRight.setPower(-gamepad2.left_stick_y);
             armLeft.setPower(-gamepad2.left_stick_y);
-
+            //control extension of arm
             armExtension.setPower(-gamepad2.right_stick_y);
-
+            //control the collector
             if (gamepad2.right_bumper){
                 collectorPow = 1;
             } else if (gamepad2.left_bumper){
@@ -53,9 +53,8 @@ public class CompTeleOp extends AutonomousBaseV2{
             } else {
                 collectorPow = 0;
             }
-
             collector.setPower(collectorPow);
-
+            //control dumping of minerals
             if (gamepad2.a){
                 dump.setPosition(0);
             } else if (gamepad2.b) {
