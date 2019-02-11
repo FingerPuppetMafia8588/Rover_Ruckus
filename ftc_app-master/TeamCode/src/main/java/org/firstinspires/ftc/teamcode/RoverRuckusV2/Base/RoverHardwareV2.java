@@ -11,10 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotBase;
-import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotHardware;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
-import org.firstinspires.ftc.teamcode.RoverRuckusV2.Tests.InferredMIneralDetection;
 
 /**
  * Created by isaac.blandin on 1/7/19.

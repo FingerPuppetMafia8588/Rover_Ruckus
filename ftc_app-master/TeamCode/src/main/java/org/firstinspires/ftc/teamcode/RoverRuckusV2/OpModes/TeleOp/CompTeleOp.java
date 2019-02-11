@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusV2.OpModes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotHardware;
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
 import org.firstinspires.ftc.teamcode.RoverRuckusV2.Base.AutonomousBaseV2;
-import org.firstinspires.ftc.teamcode.RoverRuckusV2.Base.RoverHardwareV2;
-
 /**
  * Created by isaac.blandin on 1/20/19.
  */
