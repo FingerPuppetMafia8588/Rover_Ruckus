@@ -27,25 +27,24 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
     protected DcMotor lfDrive;
     protected DcMotor rbDrive;
     protected DcMotor lbDrive;
-
+    //declares arm rotation motors
     protected DcMotor armRight;
     protected DcMotor armLeft;
-
+    //declares arm extension motor
     protected DcMotor armExtension;
-
+    //declares collector motor
     protected DcMotor collector;
 
+    //declares servo to lock before landing
     protected Servo hangLock;
-
+    //declares mineral dumping servos
     protected Servo dump;
 
-    // declares gyro
+    // declares gyro and gyro variables
     protected BNO055IMU imu;
     protected Orientation lastAngles = new Orientation();
     protected Orientation angles;
-
     protected double globalAngle;
-
     protected int heading;
 
     //final variables for moving robot to distance
@@ -54,24 +53,25 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
     protected final double ORBITAL20_PPR = 537.6;
     protected final double DRIVE_GEAR_RATIO = 1;
 
-    protected final double FORWARD_RATIO = 1;
-    protected final double STRAFE_RATIO = 1;
-    protected final double TURN_RATIO = 0.7;
-
     protected final int NEVEREST60_PPR = 1680;
     protected final int NEVEREST40_PPR = 1120;
     protected final int ARM_RATIO = 9;
 
-
+    //declares variables and parameters for tensor flow scanning
     protected static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     protected static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     protected static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-
     protected static final String VUFORIA_KEY = "ATMaWPX/////AAABmZSp02GUa07oranA3Pd4lFdFBNnwHNZGGVH5c4S2XFLBGoC8s3a5qi5VEb6If/Xx/hl6YMfe0BbeThv0ZoAiC7i2A/AuHEtqsNdpx5loSt5uV4DGnw860ZPto6y7NN8cpjr+3rhDwriTQXGgoJ5fPSvI/QhfXtZTz0peh533l76mxJ4lKLNqHWzYZiG5CptqisPRrVQl+fIv2AjOg9vhNxZMEq9yT3KQNVxK88vriPIaOzDeN8Qy8WeQIbOS5tEP88Ax/tEwsA4DTHr80+6ngkdsC4qXZNkS/ooy9VLTev55fjqxhlyLZm5/Xs+svNFMwlV/0Shn3ssiAxFuffDymF24wLPmfaB/1G2GBT4VxISO";
     protected VuforiaLocalizer vuforia;
     protected TFObjectDetector tfod;
     protected GOLD_POSITION gold_position;
 
+    /**
+     * sets all of the initialization values of the robot
+     *
+     * @param robotRunType tells whether the opmode is TeleOp or Autonomous in order to change needed
+     *                     functions such as servo positions
+     */
     protected void initRobotV2 (RobotRunType robotRunType){
 
 
@@ -163,6 +163,14 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         }
     }
 
+    /**
+     * Method to apply power to all four of the motors with a single line of code
+     *
+     * @param rightFrontPower power of the right front wheel
+     * @param leftFrontPower power of the left front wheel
+     * @param rightBackPower power of the right back wheel
+     * @param leftBackPower power of the left back wheel
+     */
     protected void setDrivePower (double rightFrontPower, double leftFrontPower, double rightBackPower, double leftBackPower) {
         rfDrive.setPower(rightFrontPower);
         lfDrive.setPower(leftFrontPower);
@@ -171,11 +179,21 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
 
     }
 
-    //method to easily stop the robot
+    /**
+     * stops all of the drive wheels of the robot
+     */
     protected void stopDrive() {
         setDrivePower(0, 0, 0 ,0);
     }
 
+
+    /**
+     * used to drive a holonomic drive train in a conventional method using three variables
+     * now obsolete and replaced with Field Centric Drive
+     * @param forward power applied for forward-backward movement
+     * @param strafe power applied for lateral movement
+     * @param turning power applied for turning
+     */
     protected void MecanumFormula(double forward, double strafe, double turning){
 
         double rfPower, rbPower, lfPower, lbPower;
@@ -227,6 +245,13 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         setDrivePower(rfPower, lfPower, rbPower, lbPower);
     }
 
+    /**
+     * method to drive the robot using field-centric drive
+     *
+     * movement - left joystick
+     * rotation - right joystick x-axis
+     * slow-mode - right bumper
+     */
     protected void FieldCentricDrive(){
 
         double turnRatio = 1;
@@ -252,6 +277,14 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         }
     }
 
+    /**
+     * method used to drive a holonomic drive train given a vector for direction and power
+     *
+     * @param direction angular vector in radians which gives the direction to move
+     * @param velocity speed in which the robot should be moving
+     * @param rotationVelocity speed which the robot should be rotating
+     * @return Wheels - creates new Wheels class
+     */
     protected RoverHardwareV2.Wheels getWheels(double direction, double velocity, double rotationVelocity) {
         final double vd = velocity;
         final double td = direction;
@@ -275,6 +308,12 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         return new RoverHardwareV2.Wheels(v1 / scale, v2 / scale, v3 / scale, v4 / scale);
     }
 
+    /**
+     * method to scale values to within a certain range
+     *
+     * @param xs values to be used to create the scale
+     * @return double - scale to be used by the upper shell
+     */
     protected static double ma(double... xs) {
         double ret = 0.0;
         for (double x : xs) {
@@ -283,6 +322,14 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         return ret;
     }
 
+    /**
+     * Uses the wheels classes to apply the vector driven holonomic formula to the four wheels of a
+     * holonomic drivetrain
+     *
+     * @param direction angular vector in radians which gives the direction to move
+     * @param velocity speed in which the robot should be moving
+     * @param rotationVelocity speed which the robot should be rotating
+     */
     protected void drive(double direction, double velocity, double rotationVelocity) {
         RoverHardwareV2.Wheels w = getWheels(direction, velocity, rotationVelocity);
         lfDrive.setPower(w.lf);
@@ -291,6 +338,12 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         rbDrive.setPower(w.rr);
     }
 
+    /**
+     * method which allows the rev integrated gyroscope to be used without the wrap around values
+     * where it resets at 180 degrees
+     *
+     * @return double - unrestricted gyroscope value of the robot
+     */
     protected double getGlobal(){
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
