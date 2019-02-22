@@ -52,11 +52,9 @@ public class CompTeleOp extends AutonomousBaseV2{
             collector.setPower(collectorPow);
             //control dumping of minerals
             if (gamepad2.a){
-                dump.setPosition(0);
-            } else if (gamepad2.b) {
-                dump.setPosition(0.03);
-            } else{
-                dump.setPosition(0.12);
+                dump.setPosition(0.08);
+            }  else{
+                dump.setPosition(0.35);
             }
 
         }

@@ -155,7 +155,7 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
 
             //set autonomous servo positions
             hangLock.setPosition(0);
-            dump.setPosition(0);
+            //dump.setPosition(0.08);
 
         }
     }

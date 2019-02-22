@@ -179,7 +179,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
 
         waitSec(0.5);
         //drive to needed position
-        drive(0.5, 7.5);
+        drive(0.5, 7.3);
         turnHeading(0.25, 90);
         turnHeading(0.15, 90);
         drive(-0.3, 3.9);
@@ -246,13 +246,13 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
 
         }
         drive(0);
-        turnHeading(0.3, 10);
+        turnHeading(0.5, 7);
         strafeRot(1, 0.4);
         rotArm(75, -1);
         turnHeading(0.3, 0);
         strafeRot(-0.4, 0.23);
         waitSec(0.2);
-        alignLander(-0.3, 3);
+        alignLander(-0.4, 4);
         waitSec(0.3);
         turnHeading(0.35, 0);
         turnHeading(0.15, 0);

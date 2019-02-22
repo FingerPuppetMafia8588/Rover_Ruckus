@@ -44,7 +44,11 @@ public class CraterAutoNoLand extends AutonomousBaseV2 {
         collectorTime(1, -1);
         //drive to crater to park
         drive(-0.5, 30);
-        waitSec(0.3);
+        waitSec(0.2);
+        turnHeading(0.3, 145);
+        drive(-0.3, 30);
+
+        /*waitSec(0.3);
         strafeRot(-0.5, 0.5);
         waitSec(0.3);
         turnHeading(0.45, -42);
@@ -56,7 +60,7 @@ public class CraterAutoNoLand extends AutonomousBaseV2 {
         waitSec(0.3);
         //extend arm over crater
         extendArm(10, 1);
-
+*/
         stop();
 
     }
