@@ -27,7 +27,9 @@ public class CraterAutoNoLand extends AutonomousBaseV2 {
         resetEncoders();
         resetArmEncoders();
 
-        waitForStart();
+        while(!opModeIsActive() && !isStopRequested()){
+            telemetry.addData("status", "waiting for start command...");
+        }
 
         //sample minerals
         sample(AutoType.CRATER);

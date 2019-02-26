@@ -27,7 +27,9 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         resetEncoders();
         resetArmEncoders();
 
-        waitForStart();
+        while(!opModeIsActive() && !isStopRequested()){
+            telemetry.addData("status", "waiting for start command...");
+        }
 
         //land robot
         land();
@@ -35,7 +37,8 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         sample(AutoType.CRATER);
         //drive to depot
         waitSec(0.3);
-        drive(0.5, 32);
+        drive(0.5, 36
+        );
         waitSec(0.3);
         turnHeading(0.3, 125);
         turnHeading(0.2, 125);

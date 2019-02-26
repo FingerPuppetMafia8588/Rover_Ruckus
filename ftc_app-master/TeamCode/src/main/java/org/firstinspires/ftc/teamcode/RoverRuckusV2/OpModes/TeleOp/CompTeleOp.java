@@ -17,7 +17,9 @@ public class CompTeleOp extends AutonomousBaseV2{
         initRobotV2(RobotRunType.TELEOP);
         double collectorPow;
 
-        waitForStart();
+        while(!opModeIsActive() && !isStopRequested()){
+            telemetry.addData("status", "waiting for start command...");
+        }
         while(opModeIsActive()){
 
 

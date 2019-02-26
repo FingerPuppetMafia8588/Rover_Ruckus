@@ -27,7 +27,9 @@ public class BoxAutoV2 extends AutonomousBaseV2{
         resetEncoders();
         resetArmEncoders();
 
-        waitForStart();
+        while(!opModeIsActive() && !isStopRequested()){
+            telemetry.addData("status", "waiting for start command...");
+        }
 
         //land robot
         land();

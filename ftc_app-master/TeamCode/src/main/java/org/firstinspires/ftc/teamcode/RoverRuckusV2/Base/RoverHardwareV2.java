@@ -54,6 +54,8 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
     protected final int NEVEREST40_PPR = 1120;
     protected final int ARM_RATIO = 9;
 
+    protected final double TURN_RATIO = 0.7;
+
     //declares variables and parameters for tensor flow scanning
     protected static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     protected static final String LABEL_GOLD_MINERAL = "Gold Mineral";
@@ -251,9 +253,9 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
      */
     protected void FieldCentricDrive(){
 
-        double turnRatio = 1;
+        double turnRatio = 0.7;
         if (gamepad1.right_bumper){
-            turnRatio = 0.5;
+            turnRatio = 0.3;
         }
 
         //pull coordinate values from x and y axis of joystick
