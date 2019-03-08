@@ -33,6 +33,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         rbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lbDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (opModeIsActive() && rfDrive.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER && lfDrive.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
+            //waiting
         }
     }
 
