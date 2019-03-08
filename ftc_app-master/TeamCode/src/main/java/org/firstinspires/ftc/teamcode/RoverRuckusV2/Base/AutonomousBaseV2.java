@@ -173,52 +173,33 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
     protected void sample(AutoType autoType){
         double retStrafe;
         if (autoType == AutoType.CRATER){
-            retStrafe = 1.0;
         } else {
-            retStrafe = 1.5;
         }
 
-        waitSec(0.5);
-        //drive to needed position
-        drive(0.5, 7.3);
-        turnHeading(0.25, 90);
-        turnHeading(0.15, 90);
-        drive(-0.3, 3.9);
+        turnHeading(0.17, 15);
         waitSec(0.2);
-        correctPositon();
-        waitSec(1);
         //scan minerals
         getGoldPos();
-        waitSec(0.3);
+        waitSec(0.2);
 
         if (gold_position == GOLD_POSITION.RIGHT){ //knock off right mineral
-            drive(-0.3, 12);
-            waitSec(0.5);
-            strafeRot(0.5, 1.5);
-            strafeRot(-0.5, retStrafe);
-            turnHeading(0.3, 90);
-            turnHeading(0.2, 90);
-            waitSec(0.3);
-            drive(0.3, 29);
 
+            turnHeading(0.3, -20);
+            waitSec(0.3);
+            turnHeading(0.15, -25);
+            drive(0.5, 24);
 
         } else if (gold_position == GOLD_POSITION.CENTER){ //knock off center mineral
-            drive(0.3, 3);
-            waitSec(0.5);
-            strafeRot(0.5, 1.5);
-            strafeRot(-0.5, retStrafe);
-            turnHeading(0.3, 90);
-            turnHeading(0.2, 90);
+
+            turnHeading(0.3, 3);
             waitSec(0.3);
-            drive(0.3, 14);
+            turnHeading(0.15, 0);
+            drive(0.5, 20);
 
         } else { // knock off left mineral
-            drive(0.3, 17);
-            waitSec(0.5);
-            strafeRot(0.5, 1.5);
-            strafeRot(-0.5, retStrafe);
-            turnHeading(0.3, 90);
-            turnHeading(0.2, 90);
+
+            turnHeading(0.15, 25);
+            drive(0.5, 24);
 
         }
     }
@@ -274,7 +255,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         double starting = getAngle();
         double right = power;
         double left = power;
-        while (opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition && t.time() < 2) {
+        while (opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition && t.time() < 1) {
             double delta = starting - getAngle();
             right = power + (delta / 40);
             left = power - (delta / 40);
@@ -323,7 +304,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      */
     protected void extendArm(int inches, double power){
 
-        int target =  (int) (NEVEREST40_PPR * inches / Math.PI);
+        int target =  (int) (NEVEREST40_PPR * inches / Math.PI / 3);
 
         while (Math.abs(armExtension.getCurrentPosition()) < target && !isStopRequested()){
             armExtension.setPower(power);
@@ -458,56 +439,5 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         }
 
         tfod.deactivate();
-    }
-
-    /**
-     * uses the position of known minerals to correct the robots position for scanning
-     */
-    public void correctPositon(){
-        if (tfod != null) {
-            tfod.activate();
-        }
-        ElapsedTime t = new ElapsedTime(System.nanoTime());
-        boolean hasTwo = false;
-        int counter = 0;
-        while (!hasTwo && opModeIsActive()){
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                int goldMineralX = -1;
-                int silverMineral1X = -1;
-                int silverMineral2X = -1;
-                if (updatedRecognitions.size() >= 1){
-
-                    counter++;
-                    if (counter == 1){t.reset();}
-                    for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            goldMineralX = (int) recognition.getLeft();
-                        } else if (silverMineral1X == -1) {
-                            silverMineral1X = (int) recognition.getLeft();
-                        } else {
-                            silverMineral2X = (int) recognition.getLeft();
-                        }
-                    }
-                }
-                if (updatedRecognitions.size() == 1){
-                    int mineralX = -1;
-                    if (goldMineralX > 0){
-                        mineralX = goldMineralX;
-                    } else if (silverMineral1X > 0){
-                        mineralX = silverMineral1X;
-                    }
-
-                    if (mineralX < 600 && mineralX > 0){
-                        drive(-0.15);
-                    } else {
-                        drive(0.15);
-                    }
-                } else if (updatedRecognitions.size() == 2 || t.time() >= 5){
-                    drive(0);
-                    hasTwo = true;
-                }
-            }
-        }
     }
 }
