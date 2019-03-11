@@ -27,9 +27,7 @@ public class NewScanTest extends AutonomousBaseV2{
             telemetry.addData("status", "waiting for start command...");
         }
 
-
         sample(AutoType.CRATER);
-
 
         stop();
 

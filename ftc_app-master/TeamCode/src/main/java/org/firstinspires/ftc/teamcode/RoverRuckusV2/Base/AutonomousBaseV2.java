@@ -371,7 +371,6 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
     }
 
     /**
@@ -386,7 +385,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
     }
 
     /**
-     * scans the minerals and applies the position to a global variable
+     * scans the minerals and assigns the position to a global variable
      */
     protected void getGoldPos() {
 
