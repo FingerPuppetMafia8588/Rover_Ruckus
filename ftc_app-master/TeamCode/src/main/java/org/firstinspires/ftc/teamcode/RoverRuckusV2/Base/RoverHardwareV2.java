@@ -63,7 +63,7 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
     protected static final String VUFORIA_KEY = "ATMaWPX/////AAABmZSp02GUa07oranA3Pd4lFdFBNnwHNZGGVH5c4S2XFLBGoC8s3a5qi5VEb6If/Xx/hl6YMfe0BbeThv0ZoAiC7i2A/AuHEtqsNdpx5loSt5uV4DGnw860ZPto6y7NN8cpjr+3rhDwriTQXGgoJ5fPSvI/QhfXtZTz0peh533l76mxJ4lKLNqHWzYZiG5CptqisPRrVQl+fIv2AjOg9vhNxZMEq9yT3KQNVxK88vriPIaOzDeN8Qy8WeQIbOS5tEP88Ax/tEwsA4DTHr80+6ngkdsC4qXZNkS/ooy9VLTev55fjqxhlyLZm5/Xs+svNFMwlV/0Shn3ssiAxFuffDymF24wLPmfaB/1G2GBT4VxISO";
     protected VuforiaLocalizer vuforia;
     protected TFObjectDetector tfod;
-    protected GOLD_POSITION gold_position;
+    public GOLD_POSITION gold_position;
 
     /**
      * sets all of the initialization values of the robot
@@ -116,8 +116,6 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         collector = hardwareMap.dcMotor.get("collector");
 
         collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        collector.setDirection(DcMotorSimple.Direction.REVERSE);
 
         collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

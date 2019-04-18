@@ -21,8 +21,8 @@ public class BoxAutoV2 extends AutonomousBaseV2{
         initVuforia();
         initTfod();
         //free motors for landing
-        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //reset all encoders
         resetEncoders();
         resetArmEncoders();
@@ -35,6 +35,8 @@ public class BoxAutoV2 extends AutonomousBaseV2{
         land();
         //sample minerals
         sample(AutoType.DEPOT);
+
+        /**
         //drive to depot
         waitSec(0.2);
         drive(0.5, 31);
@@ -62,7 +64,7 @@ public class BoxAutoV2 extends AutonomousBaseV2{
         waitSec(0.2);
         //extend arm over crater
         extendArm(10, 1);
-
+        */
         stop();
 
 

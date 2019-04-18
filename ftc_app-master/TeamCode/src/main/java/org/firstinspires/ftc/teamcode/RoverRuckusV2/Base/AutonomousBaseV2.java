@@ -129,15 +129,53 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      */
     protected void strafeRot(double power, double rotations) {
         resetEncoders();
+        waitSec(0.2);
         setDrivePower(-power, power, power, -power);
         double targetPosition = rotations * ORBITAL20_PPR * DRIVE_GEAR_RATIO;
 
-        while (opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition) {
+        while (Math.abs((double)rfDrive.getCurrentPosition()) <= targetPosition) {
 
         }
         stopDrive();
         telemetry.addLine("Strafed " + rotations + " Rotations to target");
         telemetry.update();
+    }
+    protected void strafeTime(double power, double rotations) {
+        resetEncoders();
+        setDrivePower(-power, power, power, -power);
+        double targetPosition = rotations * ORBITAL20_PPR * DRIVE_GEAR_RATIO;
+
+        waitSec(rotations);
+        stopDrive();
+        telemetry.addLine("Strafed " + rotations + " Rotations to target");
+        telemetry.update();
+    }
+
+    protected void driveVector(double target, double direction, double power, double rot, int heading, boolean time){
+        resetEncoders();
+        direction = Math.toRadians(direction);
+        double adjustment;
+        if (rot == 0){
+            adjustment = power/2;
+        } else {
+            adjustment = power;
+        }
+        if (power < 0){
+            adjustment = -adjustment;
+        }
+        target = target * ORBITAL20_PPR * DRIVE_GEAR_RATIO / WHEEL_CIRC;
+        drive(direction, power, 0);
+        while(getRightAbs() < target && getleftAbs() < target && opModeIsActive()){
+            if (Math.abs(getAngle() - heading) > 3)
+                if (getAngle() < heading){
+                    drive(direction, power, -adjustment);
+                } else if (getAngle() > heading){
+                    drive(direction, power, adjustment);
+                } else {
+                    drive(direction, power, 0);
+                }
+        }
+        stopDrive();
     }
 
     /**
@@ -172,37 +210,65 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      * scans and knocks off the gold mineral in autonomous
      */
     protected void sample(AutoType autoType){
-        double retStrafe;
-        if (autoType == AutoType.CRATER){
-        } else {
-        }
 
-        turnHeading(0.17, 15);
+        turnHeading(0.23, 15);
         waitSec(0.2);
         //scan minerals
         getGoldPos();
         waitSec(0.2);
+        turnHeading(0.2, 0);
+        waitSec(0.2);
+        turnHeading(0.2, 0);
+        //drive(0.3, 16);
+        waitSec(0.2);
 
-        if (gold_position == GOLD_POSITION.RIGHT){ //knock off right mineral
+        if (autoType == AutoType.DEPOT) {
+            if (gold_position == GOLD_POSITION.RIGHT) { //knock off right mineral
 
-            turnHeading(0.3, -20);
-            waitSec(0.3);
-            turnHeading(0.15, -25);
-            drive(0.5, 24);
+                driveVector(43, 50, 0.5, 0, 0, false);
+                driveVector(6, 0, 0.5, 0, 0, false);
+                driveVector(30, -90, 0.5, 0.25, -45, false);
+                collectorTime(1, -1);
+                turnHeading(0.2, -45);
+                drive(-0.6, 64);
 
-        } else if (gold_position == GOLD_POSITION.CENTER){ //knock off center mineral
 
-            turnHeading(0.3, 3);
-            waitSec(0.3);
-            turnHeading(0.15, 0);
-            drive(0.5, 20);
+            } else if (gold_position == GOLD_POSITION.CENTER) { //knock off center mineral
 
-        } else { // knock off left mineral
+                driveVector(40, 0, 0.3, 0, 0, false);
+                driveVector(8.5, -90, 0.5, 0.25, -45, false);
+                collectorTime(1, -1);
+                turnHeading(0.2, -45);
+                drive(-0.6, 60);
 
-            turnHeading(0.15, 25);
-            drive(0.5, 24);
 
+            } else { // knock off left mineral
+
+                driveVector(2, -90, 0.3, 0, 0, false);
+                driveVector(45, -55, 0.5, 0, 0, false);
+                driveVector(16, -90, 0.5, 0.25, -45, false);
+                turnHeading(0.2, -45);
+                drive(0.4, 24);
+                collectorTime(1, -1);
+                turnHeading(0.2, -45);
+                drive(-0.6, 55);
+            }
         }
+    }
+
+    protected void craterClaim (){
+        driveVector(20, 45, 0.5, 0.5, 90, false);
+        turnHeading(0.2, 88);
+        drive(0.4, 30);
+        driveVector(15, 45, 0.5, 0.5, 135, false);
+        waitSec(0.1);
+        turnHeading(0.2, 135);
+        drive(0.5, 42);
+        collectorTime(1, -1);
+        drive(-0.5, 36);
+        turnHeading(0.2, 90);
+        drive(-0.4, 20);
+
     }
 
     /**
@@ -210,66 +276,36 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      */
     protected void land(){
         waitSec(0.3);
-        rotArm(2, -1);
-        hangLock.setPosition(1);
-        waitSec(2);
-        armRight.setPower(0.5);
-        armLeft.setPower(0.5);
-        while(Math.abs(armRight.getCurrentPosition()) < 2){
-
-        }
-        armRight.setPower(0);
-        armLeft.setPower(0);
-
-        rotArm(5, 1);
-
-        ElapsedTime t = new ElapsedTime();
-        drive(-0.2);
-        while (t.time() <= 1){
-
-        }
-        drive(0);
-        turnHeading(0.5, 7);
-        strafeRot(1, 0.4);
-        rotArm(75, -1);
-        turnHeading(0.3, 0);
-        strafeRot(-0.4, 0.23);
+        rotArm(10, -1);
         waitSec(0.2);
-        alignLander(-0.4, 4);
+        hangLock.setPosition(1);
+        waitSec(0.5);
+        hangLock.setPosition(0);
+        waitSec(0.5);
+        hangLock.setPosition(1);
         waitSec(0.3);
-        turnHeading(0.35, 0);
-        turnHeading(0.15, 0);
-        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rotArm(65, 1);
+        driveVector(1, 0, 0.2, 0, 0, false);
+        turnHeading(0.8, 17);
+        turnHeading(0.3, 0);
+        //turnHeading(0.2, 0);
+        resetArmEncoders();
+        rotArm(55, -1);
+
+
+
     }
 
-    /**
-     * used to align against the lander in autonomous with a time kill-switch in case the robot locks up
-     * @param power speed to move against the lander
-     * @param inches distance to move
-     */
-    protected void alignLander(double power, int inches){
-        resetEncoders();
-        ElapsedTime t = new ElapsedTime(System.nanoTime());
-        drive(power);
-        double targetPosition = inches * ORBITAL20_PPR * DRIVE_GEAR_RATIO / WHEEL_CIRC;
-        double starting = getAngle();
-        double right = power;
-        double left = power;
-        while (opModeIsActive() && getleftAbs() <= targetPosition && getRightAbs() <= targetPosition && t.time() < 1) {
-            double delta = starting - getAngle();
-            right = power + (delta / 40);
-            left = power - (delta / 40);
-
-            if (Math.abs(right) > 1 || Math.abs(left) > 1) {
-                right /= Math.max(right, left);
-                left /= Math.max(right, left);
-            }
-            setDrivePower(right, left, right, left);
-        }
-        stopDrive();
-        telemetry.addLine("Drove " + inches + " inches to target");
-        telemetry.update();
+    public void depotClaim(){
+        extendArm(10, 1);
+        resetArmEncoders();
+        rotArm(20, -0.5);
+        waitSec(0.2);
+        collectorTime(1, -1);
+        resetArmEncoders();
+        rotArm(50, 1);
+        waitSec(0.2);
+        extendArm(9, -1);
     }
 
     ///////////////////////////////////
@@ -283,7 +319,6 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      */
     protected void rotArm(int degrees, double power){
 
-        resetArmEncoders();
         int target = NEVEREST60_PPR * ARM_RATIO * degrees / 360;
 
         while (Math.abs(armRight.getCurrentPosition()) < target && opModeIsActive()){
@@ -305,10 +340,11 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      */
     protected void extendArm(int inches, double power){
 
-        int target =  (int) (NEVEREST40_PPR * inches / Math.PI / 3);
+        int target =  (int) (NEVEREST40_PPR * inches / Math.PI);
 
+        armExtension.setPower(power);
         while (Math.abs(armExtension.getCurrentPosition()) < target && !isStopRequested()){
-            armExtension.setPower(power);
+
         }
         armExtension.setPower(0);
 

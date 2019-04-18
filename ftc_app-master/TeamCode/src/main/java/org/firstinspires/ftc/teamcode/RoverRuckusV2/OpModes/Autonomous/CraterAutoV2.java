@@ -21,8 +21,8 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         initVuforia();
         initTfod();
         //free motors for landing
-        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //reset all encoders
         resetEncoders();
         resetArmEncoders();
@@ -32,9 +32,13 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         }
 
         //land robot
-        land();
+        //land();
+        craterClaim();
         //sample minerals
-        sample(AutoType.CRATER);
+        //sample(AutoType.CRATER);
+
+        //extendArm(5,1);
+        /**
         //drive to depot
         waitSec(0.3);
         drive(0.5, 36);
@@ -52,19 +56,7 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         turnHeading(0.3, 145);
         drive(-0.3, 30);
 
-        /*waitSec(0.3);
-        strafeRot(-0.5, 0.5);
-        waitSec(0.3);
-        turnHeading(0.45, -42);
-        turnHeading(0.2, -42);
-        waitSec(0.3);
-        strafeRot(-0.5, 0.5);
-        waitSec(0.3);
-        drive(0.5, 20);
-        waitSec(0.3);
-        //extend arm over crater
-        extendArm(10, 1);
-*/
+         */
         stop();
 
     }
