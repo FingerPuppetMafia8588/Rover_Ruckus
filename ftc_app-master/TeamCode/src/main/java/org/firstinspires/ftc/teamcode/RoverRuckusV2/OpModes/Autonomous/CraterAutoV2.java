@@ -32,31 +32,14 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         }
 
         //land robot
-        //land();
+        land();
+        sample(AutoType.CRATER);
         craterClaim();
-        //sample minerals
-        //sample(AutoType.CRATER);
+        craterSampleEnd();
+        resetArmEncoders();
+        extendArm(6, 1);
+        rotArm(10, -1);
 
-        //extendArm(5,1);
-        /**
-        //drive to depot
-        waitSec(0.3);
-        drive(0.5, 36);
-        waitSec(0.3);
-        turnHeading(0.3, 125);
-        turnHeading(0.2, 125);
-        waitSec(0.3);
-        drive(0.5, 30);
-        waitSec(0.2);
-        //drop the team marker
-        collectorTime(1, -1);
-        //drive to crater to park
-        drive(-0.5, 30);
-        waitSec(0.2);
-        turnHeading(0.3, 145);
-        drive(-0.3, 30);
-
-         */
         stop();
 
     }

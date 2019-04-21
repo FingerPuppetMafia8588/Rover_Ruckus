@@ -5,5 +5,5 @@ package org.firstinspires.ftc.teamcode.RoverRuckusV2.Base;
  */
 
 public enum AutoType {
-    CRATER, DEPOT
+    CRATER, DEPOT, CRATEREARLY
 }

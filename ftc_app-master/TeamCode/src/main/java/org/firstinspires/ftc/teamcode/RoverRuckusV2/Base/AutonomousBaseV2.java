@@ -225,50 +225,79 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         if (autoType == AutoType.DEPOT) {
             if (gold_position == GOLD_POSITION.RIGHT) { //knock off right mineral
 
-                driveVector(43, 50, 0.5, 0, 0, false);
+                driveVector(43, 53, 0.5, 0, 0, false);
                 driveVector(6, 0, 0.5, 0, 0, false);
-                driveVector(30, -90, 0.5, 0.25, -45, false);
+                driveVector(40, -90, 0.5, 0.25, -45, false);
                 collectorTime(1, -1);
-                turnHeading(0.2, -45);
-                drive(-0.6, 64);
+                turnHeading(0.2, -47);
+                drive(-0.4, 65);
 
 
             } else if (gold_position == GOLD_POSITION.CENTER) { //knock off center mineral
 
                 driveVector(40, 0, 0.3, 0, 0, false);
-                driveVector(8.5, -90, 0.5, 0.25, -45, false);
+                driveVector(10, -90, 0.5, 0.25, -45, false);
                 collectorTime(1, -1);
-                turnHeading(0.2, -45);
-                drive(-0.6, 60);
+                turnHeading(0.2, -47);
+                drive(-0.4, 60);
 
 
             } else { // knock off left mineral
 
                 driveVector(2, -90, 0.3, 0, 0, false);
                 driveVector(45, -55, 0.5, 0, 0, false);
-                driveVector(16, -90, 0.5, 0.25, -45, false);
+                driveVector(16, -90, 0.5, 0.35, -45, false);
                 turnHeading(0.2, -45);
                 drive(0.4, 24);
                 collectorTime(1, -1);
-                turnHeading(0.2, -45);
-                drive(-0.6, 55);
+                turnHeading(0.2, -47);
+                drive(-0.4, 56);
+            }
+        } else if (autoType == AutoType.CRATEREARLY){
+            if (gold_position == GOLD_POSITION.RIGHT){
+
+                driveVector(43, 53, 0.5, 0, 0, false);
+
+            } else if (gold_position == GOLD_POSITION.CENTER){
+
+                driveVector(40, 0, 0.3, 0, 0, false);
+
+            } else {
+
+                driveVector(2, -90, 0.3, 0, 0, false);
+                driveVector(45, -55, 0.5, 0, 0, false);
+
             }
         }
     }
 
     protected void craterClaim (){
-        driveVector(20, 45, 0.5, 0.5, 90, false);
+        driveVector(19, 45, 0.5, 0.53, 90, false);
         turnHeading(0.2, 88);
-        drive(0.4, 30);
+        drive(0.4, 29);
         driveVector(15, 45, 0.5, 0.5, 135, false);
         waitSec(0.1);
         turnHeading(0.2, 135);
         drive(0.5, 42);
         collectorTime(1, -1);
-        drive(-0.5, 36);
+        //turnHeading(0.2, 135);
+        drive(-0.5, 27);
         turnHeading(0.2, 90);
-        drive(-0.4, 20);
+        drive(-0.4, 22);
 
+    }
+
+    protected void craterSampleEnd(){
+        if (gold_position == GOLD_POSITION.RIGHT){
+            drive(-0.4, 32.5);
+        } else if (gold_position == GOLD_POSITION.CENTER){
+            drive(-0.4, 15);
+        } else {
+
+        }
+
+        turnHeading(0.3, 0);
+        drive(0.3, 12);
     }
 
     /**
@@ -284,9 +313,10 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         waitSec(0.5);
         hangLock.setPosition(1);
         waitSec(0.3);
-        rotArm(65, 1);
+        rotArm(72, 1);
         driveVector(1, 0, 0.2, 0, 0, false);
-        turnHeading(0.8, 17);
+        driveVector(2, 90, 0.3, 0, 0 , false);
+        turnHeading(0.6, 17);
         turnHeading(0.3, 0);
         //turnHeading(0.2, 0);
         resetArmEncoders();
@@ -416,6 +446,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minimumConfidence = 0.34;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
@@ -430,7 +461,7 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         }
         ElapsedTime t = new ElapsedTime(System.nanoTime());
         while(gold_position == null && opModeIsActive()) {
-            if (t.time() >= 4){
+            if (t.time() >= 5){
                 gold_position = GOLD_POSITION.CENTER;
             }
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();

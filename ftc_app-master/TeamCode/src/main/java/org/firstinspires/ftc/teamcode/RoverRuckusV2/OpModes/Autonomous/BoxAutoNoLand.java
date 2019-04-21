@@ -21,8 +21,8 @@ public class BoxAutoNoLand extends AutonomousBaseV2{
         initVuforia();
         initTfod();
         //free motors for landing
-        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //reset all encoders
         resetEncoders();
         resetArmEncoders();
@@ -33,36 +33,8 @@ public class BoxAutoNoLand extends AutonomousBaseV2{
 
         //sample minerals
         sample(AutoType.DEPOT);
-        //drive to depot
-        waitSec(0.2);
-        drive(0.5, 31);
-        waitSec(0.2);
-        turnHeading(0.3, -45);
-        waitSec(0.2);
-        strafeRot(-0.5, 0.5);
-        strafeRot(0.3, 0.2);
-        waitSec(0.2);
-        turnHeading(0.15, -42);
-        drive(0.5, 55);
-        //drop team marker
-        collectorTime(1, -1);
-        //drive to crater to park
-        drive(-0.5, 30);
-        waitSec(0.2);
-        strafeRot(0.5, 0.5);
-        waitSec(0.2);
-        turnHeading(0.45, 135);
-        turnHeading(0.2, 135);
-        waitSec(0.2);
-        strafeRot(0.5, 0.5);
-        waitSec(0.2);
-        drive(0.5, 20);
-        waitSec(0.2);
-        //extend arm over crater
-        extendArm(10, 1);
 
         stop();
-
 
     }
 
