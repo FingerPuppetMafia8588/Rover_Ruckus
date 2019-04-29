@@ -211,7 +211,8 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
      */
     protected void sample(AutoType autoType){
 
-        turnHeading(0.23, 15);
+        turnHeading(0.23, 13);
+        turnHeading(0.19, 13);
         waitSec(0.2);
         //scan minerals
         getGoldPos();

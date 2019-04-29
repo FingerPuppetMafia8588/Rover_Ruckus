@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.RoverRuckusV2.OpModes.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.RoverRuckusTemp.Base.RobotRunType;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.RoverRuckusV2.Base.AutonomousBaseV2;
 /**
  * Created by isaac.blandin on 4/18/19.
  */
-
+@Autonomous(name = "no claim")
 public class CraterAutoNoClaim extends AutonomousBaseV2 {
 
     public void runOpMode(){

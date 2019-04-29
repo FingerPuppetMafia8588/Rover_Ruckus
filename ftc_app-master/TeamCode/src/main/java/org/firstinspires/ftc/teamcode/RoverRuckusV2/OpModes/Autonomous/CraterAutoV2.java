@@ -34,6 +34,7 @@ public class CraterAutoV2 extends AutonomousBaseV2 {
         //land robot
         land();
         sample(AutoType.CRATER);
+
         craterClaim();
         craterSampleEnd();
         resetArmEncoders();
