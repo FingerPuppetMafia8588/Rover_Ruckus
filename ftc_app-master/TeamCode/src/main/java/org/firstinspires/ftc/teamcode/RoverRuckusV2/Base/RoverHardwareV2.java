@@ -286,7 +286,7 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
      * @param rotationVelocity speed which the robot should be rotating
      * @return Wheels - creates new Wheels class
      */
-    protected RoverHardwareV2.Wheels getWheels(double direction, double velocity, double rotationVelocity) {
+    protected Wheels getWheels(double direction, double velocity, double rotationVelocity) {
         final double vd = velocity;
         final double td = direction;
         final double vt = rotationVelocity;
@@ -306,7 +306,7 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         // over 1.0, just scale by 1.0 and keep all values.
         double scale = ma(1.0, v1, v2, v3, v4);
 
-        return new RoverHardwareV2.Wheels(v1 / scale, v2 / scale, v3 / scale, v4 / scale);
+        return new Wheels(v1 / scale, v2 / scale, v3 / scale, v4 / scale);
     }
 
     /**
@@ -320,6 +320,7 @@ public abstract class RoverHardwareV2 extends RobotBaseV2 {
         for (double x : xs) {
             ret = Math.max(ret, Math.abs(x));
         }
+
         return ret;
     }
 

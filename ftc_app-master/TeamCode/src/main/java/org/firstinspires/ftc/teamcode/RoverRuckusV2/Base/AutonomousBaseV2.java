@@ -178,6 +178,9 @@ public abstract class AutonomousBaseV2 extends RoverHardwareV2 {
         stopDrive();
     }
 
+    public double getVelocity(){
+        return imu.getVelocity().xVeloc;
+    }
     /**
      * turns the robot at a given speed to target angle
      * @param power speed at which to turn
